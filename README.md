@@ -160,3 +160,7 @@ The full SDL lives in [`server/schema.graphql`](server/schema.graphql). Highligh
 ## Apollo skills
 
 Apollo's authoring skills live in `.agents/skills/` (`graphql-schema`, `apollo-server`, `graphql-operations`, `apollo-client`, and more) and back the in-app concept reference.
+
+## License
+
+Licensed under the [MIT License](LICENSE) — free to use, fork, and learn from. Keep the copyright notice in copies.
