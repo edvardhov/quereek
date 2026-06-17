@@ -2,6 +2,7 @@ import { useMutation } from '@apollo/client/react'
 import { ChevronLeftIcon, ChevronRightIcon, Trash2Icon } from 'lucide-react'
 import { toast } from 'sonner'
 
+import { STATUS_STYLES } from '@/components/board/status'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import {
@@ -11,6 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { cn } from '@/lib/utils'
 import { ASSIGN_TASK, DELETE_TASK, MOVE_TASK } from '@/graphql/mutations'
 import { GET_PROJECT_BOARD } from '@/graphql/queries'
 import {
@@ -101,27 +103,38 @@ export function TaskCard({ task, projectId, users }: TaskCardProps) {
     }
   }
 
+  const styles = STATUS_STYLES[task.status]
+
   return (
-    <Card className="gap-2 py-3">
-      <CardHeader className="flex-row items-start justify-between gap-2 px-4 pb-0">
-        <CardTitle className="text-sm">{task.title}</CardTitle>
+    <Card
+      className={cn(
+        'relative gap-2 overflow-hidden py-3 transition-all duration-200',
+        'before:absolute before:inset-y-0 before:left-0 before:w-1 before:content-[""]',
+        'hover:-translate-y-0.5 hover:border-border hover:shadow-md',
+        styles.accent,
+      )}
+    >
+      <CardHeader className="flex-row items-start justify-between gap-2 px-4 pb-0 pl-5">
+        <CardTitle className="text-sm leading-snug">{task.title}</CardTitle>
         <Button
           type="button"
           variant="ghost"
           size="icon"
-          className="size-7 shrink-0"
+          className="size-7 shrink-0 text-muted-foreground hover:text-destructive"
           aria-label={`Delete ${task.title}`}
           onClick={() => void handleDelete()}
         >
-          <Trash2Icon className="size-3.5 text-destructive" />
+          <Trash2Icon className="size-3.5" />
         </Button>
       </CardHeader>
-      <CardContent className="flex flex-col gap-3 px-4 pt-0">
+      <CardContent className="flex flex-col gap-3 px-4 pl-5 pt-0">
         {task.description ? (
-          <p className="text-xs text-muted-foreground">{task.description}</p>
+          <p className="text-xs leading-relaxed text-muted-foreground">{task.description}</p>
         ) : null}
         <div className="flex flex-col gap-1">
-          <span className="text-xs text-muted-foreground">Assignee</span>
+          <span className="font-mono text-[0.7rem] uppercase tracking-wider text-muted-foreground">
+            Assignee
+          </span>
           <Select
             value={task.assignee?.id ?? 'none'}
             onValueChange={(value) => void handleAssign(value === 'none' ? '' : value)}

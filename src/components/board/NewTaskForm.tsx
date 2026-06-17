@@ -78,13 +78,13 @@ export function NewTaskForm({ projectId, users }: NewTaskFormProps) {
 
   return (
     <Card>
-      <CardHeader className="pb-2">
-        <CardTitle className="text-base">Add task</CardTitle>
-        <p className="text-xs text-muted-foreground">
-          Triggers a CreateTask mutation — check the inspector.
+      <CardHeader className="gap-1 p-5 pb-2">
+        <p className="font-mono text-[0.7rem] font-medium uppercase tracking-[0.16em] text-primary">
+          CreateTask mutation
         </p>
+        <CardTitle className="text-base">Add a task</CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="p-5 pt-0">
         <form className="flex flex-col gap-2" onSubmit={(e) => void handleSubmit(e)}>
           <Input name="title" placeholder="Task title" required />
           <Textarea name="description" placeholder="Details (optional)" rows={2} />

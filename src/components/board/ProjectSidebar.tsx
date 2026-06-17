@@ -120,44 +120,65 @@ export function ProjectSidebar({
 
   return (
     <Card className="flex flex-col gap-4">
-      <CardHeader className="pb-2">
-        <CardTitle>Projects</CardTitle>
+      <CardHeader className="gap-1 p-5 pb-2">
+        <p className="font-mono text-[0.7rem] font-medium uppercase tracking-[0.16em] text-primary">
+          GetProjects query
+        </p>
+        <CardTitle className="text-lg">Projects</CardTitle>
         <p className="text-sm text-muted-foreground">
-          Pick a board — watch the inspector for the GetProjects query.
+          Pick a board — watch the inspector light up.
         </p>
       </CardHeader>
-      <CardContent className="flex flex-col gap-4">
-        <ul className="flex flex-col gap-2">
-          {(data?.projects ?? []).map((project) => (
-            <li key={project.id} className="flex gap-1">
-              <Button
-                type="button"
-                variant={project.id === selectedProjectId ? 'default' : 'outline'}
-                className={cn('h-auto flex-1 flex-col items-start py-2 text-left')}
-                onClick={() => onSelectProject(project.id)}
-              >
-                <span className="font-medium">{project.name}</span>
-                {project.description ? (
-                  <span className="text-xs font-normal opacity-80">
-                    {project.description}
+      <CardContent className="flex flex-col gap-4 p-5 pt-0">
+        <ul className="flex flex-col gap-1.5">
+          {(data?.projects ?? []).map((project) => {
+            const active = project.id === selectedProjectId
+            return (
+              <li key={project.id} className="group flex items-stretch gap-1">
+                <button
+                  type="button"
+                  className={cn(
+                    'relative flex-1 overflow-hidden rounded-xl border px-3 py-2.5 text-left transition-all',
+                    'before:absolute before:inset-y-0 before:left-0 before:w-1 before:rounded-r-full before:transition-colors before:content-[""]',
+                    active
+                      ? 'border-primary/40 bg-primary/10 before:bg-primary'
+                      : 'border-transparent bg-muted/40 hover:bg-muted before:bg-transparent',
+                  )}
+                  onClick={() => onSelectProject(project.id)}
+                >
+                  <span
+                    className={cn(
+                      'block truncate pl-1.5 text-sm font-medium',
+                      active && 'text-foreground',
+                    )}
+                  >
+                    {project.name}
                   </span>
-                ) : null}
-              </Button>
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                aria-label={`Delete ${project.name}`}
-                onClick={() => void handleDelete(project.id)}
-              >
-                <Trash2Icon className="size-4 text-destructive" />
-              </Button>
-            </li>
-          ))}
+                  {project.description ? (
+                    <span className="mt-0.5 block truncate pl-1.5 text-xs text-muted-foreground">
+                      {project.description}
+                    </span>
+                  ) : null}
+                </button>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  className="shrink-0 self-center text-muted-foreground opacity-0 transition-opacity hover:text-destructive group-hover:opacity-100"
+                  aria-label={`Delete ${project.name}`}
+                  onClick={() => void handleDelete(project.id)}
+                >
+                  <Trash2Icon className="size-4" />
+                </Button>
+              </li>
+            )
+          })}
         </ul>
 
         <form className="flex flex-col gap-2 border-t pt-4" onSubmit={(e) => void handleCreate(e)}>
-          <p className="text-sm font-medium">New project</p>
+          <p className="font-mono text-[0.7rem] uppercase tracking-wider text-muted-foreground">
+            New project
+          </p>
           <Input name="name" placeholder="Project name" required />
           <Textarea name="description" placeholder="Description (optional)" rows={2} />
           <Button type="submit" disabled={creating}>

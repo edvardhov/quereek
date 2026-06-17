@@ -1,10 +1,12 @@
 import { useQuery, useSubscription } from '@apollo/client/react'
 
 import { NewTaskForm } from '@/components/board/NewTaskForm'
+import { STATUS_STYLES } from '@/components/board/status'
 import { TaskCard } from '@/components/board/TaskCard'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { LoadingSpinner } from '@/components/ui/loading-spinner'
+import { cn } from '@/lib/utils'
 import { GET_PROJECT_BOARD } from '@/graphql/queries'
 import { TASK_CHANGED } from '@/graphql/subscriptions'
 import {
@@ -107,39 +109,59 @@ export function Board({ projectId }: BoardProps) {
 
   return (
     <div className="flex flex-col gap-4">
-      <Card>
-        <CardHeader className="flex-row items-start justify-between gap-2">
-          <div>
-            <CardTitle>{project.name}</CardTitle>
+      <Card className="overflow-hidden">
+        <CardHeader className="flex-row items-start justify-between gap-3 p-5">
+          <div className="min-w-0">
+            <CardTitle className="text-lg">{project.name}</CardTitle>
             {project.description ? (
-              <p className="text-sm text-muted-foreground">{project.description}</p>
+              <p className="mt-1 text-sm text-muted-foreground">{project.description}</p>
             ) : null}
           </div>
-          <Badge variant="secondary">{project.tasks.length} tasks</Badge>
+          <Badge variant="secondary" className="shrink-0 font-mono">
+            {project.tasks.length} task{project.tasks.length === 1 ? '' : 's'}
+          </Badge>
         </CardHeader>
       </Card>
 
       <NewTaskForm projectId={projectId} users={users} />
 
-      <div className="grid gap-4 md:grid-cols-3">
-        {STATUS_ORDER.map((status) => (
-          <Card key={status} className="flex flex-col">
-            <CardHeader className="flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm">{STATUS_LABELS[status]}</CardTitle>
-              <Badge variant="outline">{tasksByStatus[status].length}</Badge>
-            </CardHeader>
-            <CardContent className="flex flex-col gap-2">
-              {tasksByStatus[status].map((task) => (
-                <TaskCard
-                  key={task.id}
-                  task={task}
-                  projectId={projectId}
-                  users={users}
-                />
-              ))}
-            </CardContent>
-          </Card>
-        ))}
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        {STATUS_ORDER.map((status) => {
+          const styles = STATUS_STYLES[status]
+          const tasks = tasksByStatus[status]
+          return (
+            <div
+              key={status}
+              className="flex flex-col gap-3 rounded-2xl border border-border/70 bg-muted/30 p-3"
+            >
+              <div className="flex items-center justify-between px-1">
+                <div className="flex items-center gap-2">
+                  <span className={cn('size-2.5 rounded-full', styles.dot)} />
+                  <h3 className="text-sm font-semibold">{STATUS_LABELS[status]}</h3>
+                </div>
+                <Badge variant="outline" className={cn('font-mono', styles.badge)}>
+                  {tasks.length}
+                </Badge>
+              </div>
+              <div className="flex flex-col gap-2.5">
+                {tasks.length === 0 ? (
+                  <div className="rounded-xl border border-dashed border-border/70 px-3 py-6 text-center text-xs text-muted-foreground">
+                    Nothing here yet
+                  </div>
+                ) : (
+                  tasks.map((task) => (
+                    <TaskCard
+                      key={task.id}
+                      task={task}
+                      projectId={projectId}
+                      users={users}
+                    />
+                  ))
+                )}
+              </div>
+            </div>
+          )
+        })}
       </div>
     </div>
   )

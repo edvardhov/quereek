@@ -4,6 +4,7 @@ type BrandMarkProps = {
   className?: string
   iconSize?: number
   showWordmark?: boolean
+  wordmarkClassName?: string
 }
 
 /**
@@ -15,6 +16,7 @@ export function BrandMark({
   className,
   iconSize = 32,
   showWordmark = true,
+  wordmarkClassName,
 }: BrandMarkProps) {
   return (
     <span className={cn('inline-flex items-center gap-2', className)}>
@@ -45,7 +47,12 @@ export function BrandMark({
         />
       </svg>
       {showWordmark ? (
-        <span className="text-xl font-bold leading-none tracking-tight">
+        <span
+          className={cn(
+            'font-brand text-xl font-semibold leading-none tracking-[-0.03em]',
+            wordmarkClassName,
+          )}
+        >
           quereek<span className="text-primary">.</span>
         </span>
       ) : null}
