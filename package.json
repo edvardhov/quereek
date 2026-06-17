@@ -2,8 +2,31 @@
   "name": "quereek",
   "private": true,
   "version": "0.0.0",
+  "description": "Learn GraphQL by using it — a Kanban task manager where every action shows you the exact GraphQL operation behind it.",
+  "keywords": [
+    "graphql",
+    "apollo",
+    "apollo-server",
+    "apollo-client",
+    "react",
+    "learning",
+    "education",
+    "kanban"
+  ],
+  "homepage": "https://github.com/edvardhov/quereek#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/edvardhov/quereek.git"
+  },
+  "bugs": {
+    "url": "https://github.com/edvardhov/quereek/issues"
+  },
+  "author": "Edvard Hovhannisyan",
   "license": "MIT",
   "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "dev": "concurrently -n server,client -c green,cyan \"npm run dev:server\" \"npm run dev:client\"",
     "dev:server": "tsx server/dev.ts",
