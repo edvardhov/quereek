@@ -1,73 +1,110 @@
-# React + TypeScript + Vite
+# Trellis
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Trellis is a full-stack GraphQL learning app: a Kanban-style project and task manager built with **Apollo Server 5**, **Apollo Client 4**, **React 19**, and **Vite**.
 
-Currently, two official plugins are available:
+The local workspace folder is `graphql-app`; the GitHub repository is [`trellis`](https://github.com/edvardhov/trellis).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## What you'll learn
 
-## React Compiler
+| GraphQL concept | Where it shows up |
+|---|---|
+| Schema / SDL | `server/src/schema.ts` |
+| Object types & enums | `User`, `Project`, `Task`, `TaskStatus` |
+| Input types | `CreateTaskInput`, `UpdateTaskInput`, `CreateProjectInput` |
+| Queries | `projects`, `project`, `tasks`, `users` |
+| Mutations | create/update/move/assign/delete operations |
+| Field resolvers | `Project.tasks`, `Task.assignee`, `Task.project` |
+| Subscriptions | `taskChanged(projectId)` with `graphql-ws` |
+| Client queries | `useQuery` in sidebar + board |
+| Client mutations | `useMutation` with cache updates + optimistic UI |
+| Client subscriptions | `useSubscription` for live board updates |
+| Fragments | reusable field selections in `src/graphql/fragments.ts` |
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Stack
 
-## Expanding the ESLint configuration
+- **Server**: Apollo Server 5, Express, in-memory store, PubSub subscriptions
+- **Client**: React 19, Apollo Client 4, Vite dev proxy for HTTP + WebSocket
+- **Tooling**: TypeScript, GraphQL Code Generator, Apollo skills in `.agents/skills/`
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Prerequisites
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- Node.js 20+
+- npm
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Getting started
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Install dependencies:
+
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Run the GraphQL server and React client together:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run dev
 ```
+
+- Client: [http://localhost:5173](http://localhost:5173)
+- GraphQL endpoint: [http://localhost:4000/graphql](http://localhost:4000/graphql)
+- Apollo Sandbox: open the GraphQL endpoint in your browser while the server is running
+
+Run only the server or client:
+
+```bash
+npm run dev:server
+npm run dev:client
+```
+
+Generate typed GraphQL documents:
+
+```bash
+npm run codegen
+```
+
+Build for production:
+
+```bash
+npm run build
+```
+
+## Project structure
+
+```text
+server/src/          Apollo Server, schema, resolvers, in-memory store
+src/apollo/          Apollo Client setup (HTTP + WebSocket split link)
+src/graphql/         Queries, mutations, subscriptions, fragments
+src/components/      Kanban UI (sidebar, board, task cards)
+src/__generated__/   GraphQL Code Generator output (after npm run codegen)
+.agents/skills/      Apollo GraphQL agent skills
+```
+
+## Apollo skills used
+
+Read these before working on each layer:
+
+- `graphql-schema` — schema design
+- `apollo-server` — server setup and subscriptions
+- `graphql-operations` — client operation documents
+- `apollo-client` — hooks, cache, and links
+
+## Suggested learning path
+
+1. Explore the schema and query resolvers in Apollo Sandbox.
+2. Read the client queries in `src/graphql/queries.ts` and the board UI.
+3. Try mutations from the UI and inspect cache updates in Apollo DevTools.
+4. Open two browser tabs on the same project to watch subscription updates.
+5. Run `npm run codegen` and compare generated types with hand-written ones.
+
+## Git workflow
+
+Track each milestone with a focused branch and PR:
+
+```bash
+git switch -c feat/server-schema
+git add -A && git commit -m "feat(server): add schema and resolvers"
+git push -u origin feat/server-schema
+gh pr create --fill
+```
+
+Branch map: `feat/server-schema`, `feat/client-queries`, `feat/mutations`, `feat/subscriptions`, `chore/codegen`.
