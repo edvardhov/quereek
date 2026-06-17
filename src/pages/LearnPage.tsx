@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
-import { PanelRightIcon, SparklesIcon } from 'lucide-react'
+import { CompassIcon, PanelRightIcon, SparklesIcon } from 'lucide-react'
 
 import { Board } from '@/components/board/Board'
 import { ProjectSidebar } from '@/components/board/ProjectSidebar'
 import { InspectorPanel } from '@/components/inspector/InspectorPanel'
+import { LearnTour } from '@/components/tour/LearnTour'
+import { startTour } from '@/components/tour/store'
 import { Button } from '@/components/ui/button'
 import {
   Sheet,
@@ -34,7 +36,11 @@ export function LearnPage() {
 
   return (
     <div className="mx-auto flex w-full max-w-[110rem] flex-col gap-4 px-3 py-4 sm:px-6 sm:py-6 xl:h-[calc(100dvh-var(--header-h))]">
-      <div className="relative shrink-0 overflow-hidden rounded-2xl border border-border/70 bg-card/70 p-4 sm:p-5">
+      <LearnTour />
+      <div
+        data-tour="hero"
+        className="relative shrink-0 overflow-hidden rounded-2xl border border-border/70 bg-card/70 p-4 sm:p-5"
+      >
         <div className="pointer-events-none absolute inset-y-0 left-0 w-1 bg-primary" />
         <div className="flex flex-wrap items-start justify-between gap-3 pl-2">
           <div className="min-w-0">
@@ -47,13 +53,18 @@ export function LearnPage() {
               operation, variables, response, and the concept you just used.
             </p>
           </div>
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="outline" size="sm" className="shrink-0 xl:hidden">
-                <PanelRightIcon className="size-4" />
-                Inspector
-              </Button>
-            </SheetTrigger>
+          <div className="flex shrink-0 items-center gap-2">
+            <Button variant="outline" size="sm" onClick={() => startTour()}>
+              <CompassIcon className="size-4" />
+              Take the tour
+            </Button>
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="outline" size="sm" className="xl:hidden">
+                  <PanelRightIcon className="size-4" />
+                  Inspector
+                </Button>
+              </SheetTrigger>
             <SheetContent side="right" className="w-full gap-0 p-0 sm:max-w-md">
               <SheetHeader className="border-b px-4 py-3">
                 <SheetTitle className="font-display">GraphQL Inspector</SheetTitle>
@@ -62,19 +73,22 @@ export function LearnPage() {
                 <InspectorPanel embedded />
               </div>
             </SheetContent>
-          </Sheet>
+            </Sheet>
+          </div>
         </div>
       </div>
 
       <div className="grid min-h-0 flex-1 gap-4 lg:grid-cols-[18rem_minmax(0,1fr)] xl:grid-cols-[19rem_minmax(0,1fr)_24rem]">
-        <div className="min-h-0 xl:overflow-y-auto xl:pr-1">
+        <div data-tour="projects" className="min-h-0 xl:overflow-y-auto xl:pr-1">
           <ProjectSidebar
             selectedProjectId={selectedProjectId}
             onSelectProject={setSelectedProjectId}
           />
         </div>
-        <div className="min-w-0 xl:min-h-0 xl:overflow-y-auto xl:pr-1">{board}</div>
-        <div className="hidden min-h-0 xl:block">
+        <div data-tour="board" className="min-w-0 xl:min-h-0 xl:overflow-y-auto xl:pr-1">
+          {board}
+        </div>
+        <div data-tour="inspector" className="hidden min-h-0 xl:block">
           <InspectorPanel />
         </div>
       </div>

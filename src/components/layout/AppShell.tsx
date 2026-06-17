@@ -28,6 +28,7 @@ export function NavBar() {
               key={link.to}
               to={link.to}
               end={link.end}
+              data-tour={link.to === '/concepts' ? 'concepts-link' : undefined}
               className={({ isActive }) =>
                 cn(
                   'rounded-full px-3 py-1.5 text-sm font-medium transition-colors sm:px-4',

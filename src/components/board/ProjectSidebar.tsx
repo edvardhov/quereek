@@ -175,7 +175,11 @@ export function ProjectSidebar({
           })}
         </ul>
 
-        <form className="flex flex-col gap-2 border-t pt-4" onSubmit={(e) => void handleCreate(e)}>
+        <form
+          data-tour="new-project"
+          className="flex flex-col gap-2 border-t pt-4"
+          onSubmit={(e) => void handleCreate(e)}
+        >
           <p className="font-mono text-[0.7rem] uppercase tracking-wider text-muted-foreground">
             New project
           </p>
