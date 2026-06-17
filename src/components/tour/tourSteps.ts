@@ -6,6 +6,8 @@ export type TourStep = {
   title: string
   body: string
   placement: TourPlacement
+  /** Spotlight padding around the target in px. Defaults to 8. */
+  padding?: number
 }
 
 export const TOUR_STEPS: TourStep[] = [
@@ -49,6 +51,7 @@ export const TOUR_STEPS: TourStep[] = [
     title: 'Go deeper on Concepts',
     body: 'When you want theory, open Concepts from the nav. Inspector events link there too — each operation points to the relevant concept reference.',
     placement: 'bottom',
+    padding: 2,
   },
   {
     id: 'finish',

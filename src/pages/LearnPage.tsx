@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react'
-import { CompassIcon, PanelRightIcon, SparklesIcon } from 'lucide-react'
+import { ChevronDownIcon, CompassIcon, PanelRightIcon, SparklesIcon } from 'lucide-react'
 
 import { Board } from '@/components/board/Board'
 import { ProjectSidebar } from '@/components/board/ProjectSidebar'
 import { InspectorPanel } from '@/components/inspector/InspectorPanel'
+import { PlaygroundPanels } from '@/components/playground/PlaygroundPanels'
 import { LearnTour } from '@/components/tour/LearnTour'
 import { startTour } from '@/components/tour/store'
+import { useMediaQuery } from '@/hooks/useMediaQuery'
 import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
 import {
   Sheet,
   SheetContent,
@@ -19,12 +22,20 @@ export function LearnPage() {
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(() =>
     localStorage.getItem('quereek:selectedProjectId'),
   )
+  const isWide = useMediaQuery('(min-width: 1280px)')
+  const [aboutOpen, setAboutOpen] = useState(
+    () => localStorage.getItem('quereek:learnAboutOpen') === '1',
+  )
 
   useEffect(() => {
     if (selectedProjectId) {
       localStorage.setItem('quereek:selectedProjectId', selectedProjectId)
     }
   }, [selectedProjectId])
+
+  useEffect(() => {
+    localStorage.setItem('quereek:learnAboutOpen', aboutOpen ? '1' : '0')
+  }, [aboutOpen])
 
   const board = selectedProjectId ? (
     <Board projectId={selectedProjectId} />
@@ -39,24 +50,37 @@ export function LearnPage() {
       <LearnTour />
       <div
         data-tour="hero"
-        className="relative shrink-0 overflow-hidden rounded-2xl border border-border/70 bg-card/70 p-4 sm:p-5"
+        className="shrink-0 overflow-hidden rounded-xl border border-border/70 bg-card/70"
       >
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-1 bg-primary" />
-        <div className="flex flex-wrap items-start justify-between gap-3 pl-2">
-          <div className="min-w-0">
-            <p className="font-mono text-[0.7rem] font-medium uppercase tracking-[0.18em] text-primary">
-              Interactive playground
-            </p>
-            <h1 className="mt-1 text-xl font-semibold sm:text-2xl">The board</h1>
-            <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
-              Create projects, move tasks, assign people. The GraphQL Inspector shows the exact
-              operation, variables, response, and the concept you just used.
-            </p>
+        <div className="flex items-center justify-between gap-3 px-3 py-2 sm:px-4">
+          <div className="flex min-w-0 items-center gap-2.5">
+            <span className="flex size-7 shrink-0 items-center justify-center rounded-lg bg-primary/12 text-primary">
+              <SparklesIcon className="size-4" />
+            </span>
+            <div className="flex min-w-0 items-baseline gap-2">
+              <h1 className="shrink-0 text-sm font-semibold sm:text-base">The board</h1>
+              <span className="hidden truncate text-xs text-muted-foreground sm:inline">
+                Interactive GraphQL playground
+              </span>
+            </div>
+            <button
+              type="button"
+              onClick={() => setAboutOpen((open) => !open)}
+              aria-expanded={aboutOpen}
+              aria-label={aboutOpen ? 'Hide details' : 'Show details'}
+              title={aboutOpen ? 'Hide details' : 'Show details'}
+              className="flex size-6 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+            >
+              <ChevronDownIcon
+                className={cn('size-4 transition-transform', aboutOpen && 'rotate-180')}
+              />
+            </button>
           </div>
           <div className="flex shrink-0 items-center gap-2">
             <Button variant="outline" size="sm" onClick={() => startTour()}>
               <CompassIcon className="size-4" />
-              Take the tour
+              <span className="hidden sm:inline">Take the tour</span>
+              <span className="sm:hidden">Tour</span>
             </Button>
             <Sheet>
               <SheetTrigger asChild>
@@ -65,33 +89,48 @@ export function LearnPage() {
                   Inspector
                 </Button>
               </SheetTrigger>
-            <SheetContent side="right" className="w-full gap-0 p-0 sm:max-w-md">
-              <SheetHeader className="border-b px-4 py-3">
-                <SheetTitle className="font-display">GraphQL Inspector</SheetTitle>
-              </SheetHeader>
-              <div className="h-[calc(100dvh-3.75rem)]">
-                <InspectorPanel embedded />
-              </div>
-            </SheetContent>
+              <SheetContent side="right" className="w-full gap-0 p-0 sm:max-w-md">
+                <SheetHeader className="border-b px-4 py-3">
+                  <SheetTitle className="font-display">GraphQL Inspector</SheetTitle>
+                </SheetHeader>
+                <div className="h-[calc(100dvh-3.75rem)]">
+                  <InspectorPanel embedded />
+                </div>
+              </SheetContent>
             </Sheet>
           </div>
         </div>
+        {aboutOpen ? (
+          <div className="border-t border-border/60 px-3 py-2.5 sm:px-4">
+            <p className="max-w-3xl text-sm text-muted-foreground">
+              Create projects, move tasks, assign people. The GraphQL Inspector shows the exact
+              operation, variables, response, and the concept you just used.
+            </p>
+          </div>
+        ) : null}
       </div>
 
-      <div className="grid min-h-0 flex-1 gap-4 lg:grid-cols-[18rem_minmax(0,1fr)] xl:grid-cols-[19rem_minmax(0,1fr)_24rem]">
-        <div data-tour="projects" className="min-h-0 xl:overflow-y-auto xl:pr-1">
-          <ProjectSidebar
+      {isWide ? (
+        <div className="min-h-0 flex-1">
+          <PlaygroundPanels
             selectedProjectId={selectedProjectId}
             onSelectProject={setSelectedProjectId}
+            board={board}
           />
         </div>
-        <div data-tour="board" className="min-w-0 xl:min-h-0 xl:overflow-y-auto xl:pr-1">
-          {board}
+      ) : (
+        <div className="grid min-h-0 flex-1 gap-4 lg:grid-cols-[18rem_minmax(0,1fr)]">
+          <div data-tour="projects" className="min-h-0">
+            <ProjectSidebar
+              selectedProjectId={selectedProjectId}
+              onSelectProject={setSelectedProjectId}
+            />
+          </div>
+          <div data-tour="board" className="min-w-0">
+            {board}
+          </div>
         </div>
-        <div data-tour="inspector" className="hidden min-h-0 xl:block">
-          <InspectorPanel />
-        </div>
-      </div>
+      )}
 
       <Sheet>
         <SheetTrigger asChild>

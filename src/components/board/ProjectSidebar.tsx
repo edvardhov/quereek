@@ -16,11 +16,14 @@ import type { Project } from '@/types'
 interface ProjectSidebarProps {
   selectedProjectId: string | null
   onSelectProject: (projectId: string) => void
+  /** When embedded (e.g. inside a resizable panel) drop the outer card chrome. */
+  embedded?: boolean
 }
 
 export function ProjectSidebar({
   selectedProjectId,
   onSelectProject,
+  embedded = false,
 }: ProjectSidebarProps) {
   const { data, loading, error } = useQuery<{ projects: Project[] }>(
     GET_PROJECTS,
@@ -99,6 +102,13 @@ export function ProjectSidebar({
   }
 
   if (loading) {
+    if (embedded) {
+      return (
+        <div className="p-5">
+          <LoadingSpinner label="Loading projects..." />
+        </div>
+      )
+    }
     return (
       <Card>
         <CardContent>
@@ -109,6 +119,13 @@ export function ProjectSidebar({
   }
 
   if (error) {
+    if (embedded) {
+      return (
+        <div className="p-5 text-sm text-destructive">
+          Failed to load projects: {error.message}
+        </div>
+      )
+    }
     return (
       <Card className="border-destructive/50">
         <CardContent className="pt-6 text-sm text-destructive">
@@ -118,18 +135,20 @@ export function ProjectSidebar({
     )
   }
 
-  return (
-    <Card className="flex flex-col gap-4">
-      <CardHeader className="gap-1 p-5 pb-2">
-        <p className="font-mono text-[0.7rem] font-medium uppercase tracking-[0.16em] text-primary">
-          GetProjects query
-        </p>
-        <CardTitle className="text-lg">Projects</CardTitle>
-        <p className="text-sm text-muted-foreground">
-          Pick a board — watch the inspector light up.
-        </p>
-      </CardHeader>
-      <CardContent className="flex flex-col gap-4 p-5 pt-0">
+  const header = (
+    <>
+      <p className="font-mono text-[0.7rem] font-medium uppercase tracking-[0.16em] text-primary">
+        GetProjects query
+      </p>
+      {!embedded ? <CardTitle className="text-lg">Projects</CardTitle> : null}
+      <p className="text-sm text-muted-foreground">
+        Pick a board — watch the inspector light up.
+      </p>
+    </>
+  )
+
+  const body = (
+    <>
         <ul className="flex flex-col gap-1.5">
           {(data?.projects ?? []).map((project) => {
             const active = project.id === selectedProjectId
@@ -189,7 +208,22 @@ export function ProjectSidebar({
             {creating ? 'Creating…' : 'Create project'}
           </Button>
         </form>
-      </CardContent>
+    </>
+  )
+
+  if (embedded) {
+    return (
+      <div className="flex h-full flex-col gap-4 p-4">
+        <div className="flex flex-col gap-1">{header}</div>
+        {body}
+      </div>
+    )
+  }
+
+  return (
+    <Card className="flex flex-col gap-4">
+      <CardHeader className="gap-1 p-5 pb-2">{header}</CardHeader>
+      <CardContent className="flex flex-col gap-4 p-5 pt-0">{body}</CardContent>
     </Card>
   )
 }

@@ -44,13 +44,13 @@ function findVisibleStepIndex(from: number, direction: 1 | -1): number | null {
   return null
 }
 
-function getSpotlightRect(el: Element): Rect {
+function getSpotlightRect(el: Element, padding: number): Rect {
   const rect = el.getBoundingClientRect()
   return {
-    top: rect.top - SPOTLIGHT_PADDING,
-    left: rect.left - SPOTLIGHT_PADDING,
-    width: rect.width + SPOTLIGHT_PADDING * 2,
-    height: rect.height + SPOTLIGHT_PADDING * 2,
+    top: rect.top - padding,
+    left: rect.left - padding,
+    width: rect.width + padding * 2,
+    height: rect.height + padding * 2,
   }
 }
 
@@ -156,7 +156,7 @@ export function LearnTour() {
       return
     }
 
-    const rect = getSpotlightRect(target)
+    const rect = getSpotlightRect(target, step.padding ?? SPOTLIGHT_PADDING)
     setSpotlight(rect)
 
     const el = tooltipRef.current
@@ -260,7 +260,7 @@ export function LearnTour() {
           />
           {spotlight ? (
             <div
-              className="pointer-events-none fixed rounded-xl ring-2 ring-primary/80 ring-offset-2 ring-offset-transparent transition-all duration-200"
+              className="pointer-events-none fixed rounded-xl ring-2 ring-primary/80 transition-all duration-200"
               style={{
                 top: spotlight.top,
                 left: spotlight.left,
