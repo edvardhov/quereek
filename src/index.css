@@ -1,92 +1,101 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-brand: var(--brand);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+}
+
 :root {
-  font-family: 'IBM Plex Sans', 'Segoe UI', sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-  color: #e8edf4;
-
-  /* uiverse-inspired palette */
-  --bg-0: #0b1020;
-  --bg-1: #0f1530;
-  --surface: rgba(22, 28, 56, 0.55);
-  --surface-strong: rgba(28, 35, 70, 0.78);
-  --stroke: rgba(140, 160, 255, 0.18);
-  --text: #e8edf4;
-  --text-dim: #9aa6c7;
-  --accent: #6d5efc;
-  --accent-2: #22d3ee;
-  --accent-3: #f471b5;
-  --danger: #fb7185;
-  --grad-brand: linear-gradient(135deg, #6d5efc 0%, #22d3ee 50%, #f471b5 100%);
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  /* Quereek brand: warm orange #F08C2E on warm near-black #0a0a0a */
+  --brand: oklch(0.72 0.155 56);
+  --radius: 0.625rem;
+  --background: oklch(0.99 0.004 70);
+  --foreground: oklch(0.2 0.012 60);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.2 0.012 60);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.2 0.012 60);
+  --primary: oklch(0.7 0.16 53);
+  --primary-foreground: oklch(0.18 0.012 60);
+  --secondary: oklch(0.96 0.012 70);
+  --secondary-foreground: oklch(0.3 0.03 55);
+  --muted: oklch(0.96 0.006 70);
+  --muted-foreground: oklch(0.52 0.018 60);
+  --accent: oklch(0.95 0.035 62);
+  --accent-foreground: oklch(0.3 0.05 50);
+  --destructive: oklch(0.58 0.21 25);
+  --border: oklch(0.9 0.008 70);
+  --input: oklch(0.9 0.008 70);
+  --ring: oklch(0.7 0.16 53);
+  --chart-1: oklch(0.7 0.16 53);
+  --chart-2: oklch(0.62 0.13 35);
+  --chart-3: oklch(0.55 0.1 250);
+  --chart-4: oklch(0.65 0.12 160);
+  --chart-5: oklch(0.6 0.15 320);
 }
 
-/* Animatable angle used by rotating gradient borders (uiverse signature) */
-@property --angle {
-  syntax: '<angle>';
-  initial-value: 0deg;
-  inherits: false;
+.dark {
+  --brand: oklch(0.74 0.16 56);
+  --background: oklch(0.16 0.006 60);
+  --foreground: oklch(0.96 0.005 70);
+  --card: oklch(0.2 0.007 60);
+  --card-foreground: oklch(0.96 0.005 70);
+  --popover: oklch(0.2 0.007 60);
+  --popover-foreground: oklch(0.96 0.005 70);
+  --primary: oklch(0.74 0.16 56);
+  --primary-foreground: oklch(0.16 0.012 60);
+  --secondary: oklch(0.27 0.012 60);
+  --secondary-foreground: oklch(0.96 0.005 70);
+  --muted: oklch(0.27 0.01 60);
+  --muted-foreground: oklch(0.7 0.018 65);
+  --accent: oklch(0.3 0.04 55);
+  --accent-foreground: oklch(0.96 0.005 70);
+  --destructive: oklch(0.62 0.2 25);
+  --border: oklch(0.29 0.01 60);
+  --input: oklch(0.31 0.01 60);
+  --ring: oklch(0.74 0.16 56);
+  --chart-1: oklch(0.74 0.16 56);
+  --chart-2: oklch(0.68 0.13 35);
+  --chart-3: oklch(0.65 0.1 250);
+  --chart-4: oklch(0.7 0.12 160);
+  --chart-5: oklch(0.68 0.15 320);
 }
 
-* {
-  box-sizing: border-box;
-}
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
 
-body {
-  margin: 0;
-  min-width: 320px;
-  min-height: 100vh;
-  background-color: var(--bg-0);
-  background-image:
-    radial-gradient(50rem 40rem at 12% -10%, rgba(109, 94, 252, 0.35), transparent 60%),
-    radial-gradient(45rem 35rem at 110% 0%, rgba(34, 211, 238, 0.28), transparent 55%),
-    radial-gradient(55rem 45rem at 50% 120%, rgba(244, 113, 181, 0.22), transparent 55%);
-  background-attachment: fixed;
-  overflow-x: hidden;
-}
-
-/* Slow drifting aurora layer behind everything */
-body::before {
-  content: '';
-  position: fixed;
-  inset: -25%;
-  z-index: -1;
-  background:
-    conic-gradient(from 0deg at 30% 30%, rgba(109, 94, 252, 0.18), transparent 40%),
-    conic-gradient(from 180deg at 70% 70%, rgba(34, 211, 238, 0.16), transparent 40%);
-  filter: blur(40px);
-  animation: aurora-drift 22s ease-in-out infinite alternate;
-}
-
-@keyframes aurora-drift {
-  0% { transform: translate3d(-3%, -2%, 0) rotate(0deg) scale(1); }
-  100% { transform: translate3d(3%, 2%, 0) rotate(8deg) scale(1.08); }
-}
-
-button,
-input,
-textarea,
-select {
-  font: inherit;
-  color: inherit;
-}
-
-button {
-  cursor: pointer;
-}
-
-#root {
-  min-height: 100vh;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'IBM Plex Sans', 'Segoe UI', sans-serif;
   }
 }

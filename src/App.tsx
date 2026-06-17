@@ -1,48 +1,18 @@
-import { useEffect, useState } from 'react'
-import { Board } from './components/Board'
-import { ProjectSidebar } from './components/ProjectSidebar'
-import './App.css'
+import { Route, Routes } from 'react-router-dom'
 
-function App() {
-  const [selectedProjectId, setSelectedProjectId] = useState<string | null>(() =>
-    localStorage.getItem('trellis:selectedProjectId'),
-  )
+import { AppShell } from '@/components/layout/AppShell'
+import { ConceptsPage } from '@/pages/ConceptsPage'
+import { LandingPage } from '@/pages/LandingPage'
+import { LearnPage } from '@/pages/LearnPage'
 
-  useEffect(() => {
-    if (selectedProjectId) {
-      localStorage.setItem('trellis:selectedProjectId', selectedProjectId)
-    }
-  }, [selectedProjectId])
-
+export default function App() {
   return (
-    <div className="app">
-      <header className="app-header">
-        <div>
-          <p className="eyebrow">GraphQL learning app</p>
-          <h1>Trellis</h1>
-        </div>
-        <p className="app-tagline">
-          Projects, tasks, and live updates powered by Apollo Server and Apollo Client.
-        </p>
-      </header>
-
-      <div className="app-layout">
-        <ProjectSidebar
-          selectedProjectId={selectedProjectId}
-          onSelectProject={setSelectedProjectId}
-        />
-        <main className="app-main">
-          {selectedProjectId ? (
-            <Board projectId={selectedProjectId} />
-          ) : (
-            <section className="board board-empty">
-              Select a project to open its Kanban board.
-            </section>
-          )}
-        </main>
-      </div>
-    </div>
+    <Routes>
+      <Route element={<AppShell />}>
+        <Route index element={<LandingPage />} />
+        <Route path="learn" element={<LearnPage />} />
+        <Route path="concepts" element={<ConceptsPage />} />
+      </Route>
+    </Routes>
   )
 }
-
-export default App

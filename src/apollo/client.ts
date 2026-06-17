@@ -1,5 +1,6 @@
 import {
   ApolloClient,
+  ApolloLink,
   HttpLink,
   InMemoryCache,
   split,
@@ -7,6 +8,8 @@ import {
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions'
 import { getMainDefinition } from '@apollo/client/utilities'
 import { createClient } from 'graphql-ws'
+
+import { inspectorLink } from '@/inspector/inspectorLink'
 
 const httpUri = '/graphql'
 
@@ -25,7 +28,7 @@ function createWsLink() {
 
 const wsLink = typeof window !== 'undefined' ? createWsLink() : null
 
-const link =
+const terminatingLink =
   wsLink == null
     ? httpLink
     : split(
@@ -41,7 +44,7 @@ const link =
       )
 
 export const client = new ApolloClient({
-  link,
+  link: ApolloLink.from([inspectorLink, terminatingLink]),
   cache: new InMemoryCache({
     typePolicies: {
       Project: {

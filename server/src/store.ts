@@ -31,15 +31,15 @@ function createId(prefix: string): string {
 }
 
 const users: User[] = [
-  { id: 'user-1', name: 'Alex Chen', email: 'alex@trellis.dev' },
-  { id: 'user-2', name: 'Jordan Lee', email: 'jordan@trellis.dev' },
-  { id: 'user-3', name: 'Sam Rivera', email: 'sam@trellis.dev' },
+  { id: 'user-1', name: 'Alex Chen', email: 'alex@quereek.dev' },
+  { id: 'user-2', name: 'Jordan Lee', email: 'jordan@quereek.dev' },
+  { id: 'user-3', name: 'Sam Rivera', email: 'sam@quereek.dev' },
 ]
 
 const projects: Project[] = [
   {
     id: 'project-1',
-    name: 'Trellis Launch',
+    name: 'Quereek Launch',
     description: 'Ship the first version of the GraphQL learning app.',
     createdAt: '2026-06-01T09:00:00.000Z',
   },

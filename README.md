@@ -1,29 +1,39 @@
-# Trellis
+# Quereek
 
-Trellis is a full-stack GraphQL learning app: a Kanban-style project and task manager built with **Apollo Server 5**, **Apollo Client 4**, **React 19**, and **Vite**.
+Quereek is a **GraphQL learning app**: a Kanban task manager where every action shows you the exact GraphQL operation behind it. Built with **Apollo Server 5**, **Apollo Client 4**, **React 19**, **shadcn/ui**, and **Vite**.
 
-The local workspace folder is `graphql-app`; the GitHub repository is [`trellis`](https://github.com/edvardhov/trellis).
+The local workspace folder is `graphql-app`; the GitHub repository is [`quereek`](https://github.com/edvardhov/quereek).
+
+## How this teaches you
+
+1. **Landing (`/`)** — what you'll learn and how the app works (Act → Inspect → Understand).
+2. **Learn (`/learn`)** — interactive Kanban board + **Live GraphQL Inspector** panel.
+3. **Concepts (`/concepts`)** — reference for every GraphQL concept, linked from inspector events.
+
+When you create a project, move a task, or assign someone, the inspector shows:
+- The GraphQL operation document
+- Variables sent
+- JSON response from the server
+- Plain-English explanation of what happened and which concept you used
+
+The inspector is powered by a custom `ApolloLink` in [`src/inspector/inspectorLink.ts`](src/inspector/inspectorLink.ts) — it records every operation without changing component code.
 
 ## What you'll learn
 
 | GraphQL concept | Where it shows up |
 |---|---|
-| Schema / SDL | `server/src/schema.ts` |
-| Object types & enums | `User`, `Project`, `Task`, `TaskStatus` |
-| Input types | `CreateTaskInput`, `UpdateTaskInput`, `CreateProjectInput` |
-| Queries | `projects`, `project`, `tasks`, `users` |
-| Mutations | create/update/move/assign/delete operations |
-| Field resolvers | `Project.tasks`, `Task.assignee`, `Task.project` |
-| Subscriptions | `taskChanged(projectId)` with `graphql-ws` |
-| Client queries | `useQuery` in sidebar + board |
-| Client mutations | `useMutation` with cache updates + optimistic UI |
-| Client subscriptions | `useSubscription` for live board updates |
-| Fragments | reusable field selections in `src/graphql/fragments.ts` |
+| Schema / SDL | `server/schema.graphql` |
+| Queries | GetProjects, GetProjectBoard in the inspector |
+| Mutations | CreateTask, MoveTask, AssignTask, etc. |
+| Subscriptions | TaskChanged events in the inspector |
+| Fragments | `src/graphql/fragments.ts` |
+| Normalized cache | Mutation cache updates on the board |
+| Optimistic UI | Move/assign actions on task cards |
 
 ## Stack
 
-- **Server**: Apollo Server 5, Express, in-memory store, PubSub subscriptions
-- **Client**: React 19, Apollo Client 4, Vite dev proxy for HTTP + WebSocket
+- **Server**: Apollo Server 5, Express, in-memory store, PubSub + graphql-ws
+- **Client**: React 19, Apollo Client 4, shadcn/ui, React Router, Tailwind v4
 - **Tooling**: TypeScript, GraphQL Code Generator, Apollo skills in `.agents/skills/`
 
 ## Prerequisites
@@ -33,78 +43,57 @@ The local workspace folder is `graphql-app`; the GitHub repository is [`trellis`
 
 ## Getting started
 
-Install dependencies:
-
 ```bash
 npm install
-```
-
-Run the GraphQL server and React client together:
-
-```bash
 npm run dev
 ```
 
-- Client: [http://localhost:5173](http://localhost:5173)
+- App: [http://localhost:5173](http://localhost:5173) — start at `/`, then go to `/learn`
 - GraphQL endpoint: [http://localhost:4000/graphql](http://localhost:4000/graphql)
-- Apollo Sandbox: open the GraphQL endpoint in your browser while the server is running
-
-Run only the server or client:
 
 ```bash
-npm run dev:server
-npm run dev:client
-```
-
-Generate typed GraphQL documents:
-
-```bash
-npm run codegen
-```
-
-Build for production:
-
-```bash
-npm run build
+npm run dev:server   # server only
+npm run dev:client   # client only
+npm run codegen      # generate typed operations
+npm run build        # production build
 ```
 
 ## Project structure
 
 ```text
-server/src/          Apollo Server, schema, resolvers, in-memory store
-src/apollo/          Apollo Client setup (HTTP + WebSocket split link)
-src/graphql/         Queries, mutations, subscriptions, fragments
-src/components/      Kanban UI (sidebar, board, task cards)
-src/__generated__/   GraphQL Code Generator output (after npm run codegen)
-.agents/skills/      Apollo GraphQL agent skills
+server/                  Apollo Server, schema, resolvers, store
+src/apollo/              Apollo Client (HTTP + WS + inspector link)
+src/inspector/           Event store, ApolloLink, explanations
+src/graphql/             Queries, mutations, subscriptions, fragments
+src/components/ui/       shadcn/ui primitives (shared, DRY)
+src/components/board/    Kanban UI
+src/components/inspector/ Inspector panel components
+src/components/layout/   AppShell, NavBar
+src/pages/               Landing, Learn, Concepts
+src/content/             Concept reference data
+src/__generated__/       GraphQL Code Generator output
 ```
 
-## Apollo skills used
-
-Read these before working on each layer:
-
-- `graphql-schema` — schema design
-- `apollo-server` — server setup and subscriptions
-- `graphql-operations` — client operation documents
-- `apollo-client` — hooks, cache, and links
+Import paths use the `@/` alias (maps to `src/`).
 
 ## Suggested learning path
 
-1. Explore the schema and query resolvers in Apollo Sandbox.
-2. Read the client queries in `src/graphql/queries.ts` and the board UI.
-3. Try mutations from the UI and inspect cache updates in Apollo DevTools.
-4. Open two browser tabs on the same project to watch subscription updates.
-5. Run `npm run codegen` and compare generated types with hand-written ones.
+1. Read the landing page — understand Act → Inspect → Understand.
+2. Open `/learn`, select a project — watch `GetProjects` and `GetProjectBoard` in the inspector.
+3. Create a task — inspect the `CreateTask` mutation and its input type.
+4. Move a task — see optimistic UI (`MoveTask`) update before the server responds.
+5. Open two tabs on the same project — watch `TaskChanged` subscription events.
+6. Click concept links in the inspector to read `/concepts`.
+
+## Apollo skills
+
+- `graphql-schema`, `apollo-server`, `graphql-operations`, `apollo-client` in `.agents/skills/`
 
 ## Git workflow
 
-Track each milestone with a focused branch and PR:
-
 ```bash
-git switch -c feat/server-schema
-git add -A && git commit -m "feat(server): add schema and resolvers"
-git push -u origin feat/server-schema
+git switch -c feat/learning-ui
+git add -A && git commit -m "feat: add learning UI with GraphQL inspector"
+git push -u origin feat/learning-ui
 gh pr create --fill
 ```
-
-Branch map: `feat/server-schema`, `feat/client-queries`, `feat/mutations`, `feat/subscriptions`, `chore/codegen`.
