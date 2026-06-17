@@ -9,11 +9,16 @@ import {
   deleteTask,
   getProjectById,
   getProjects,
+  getStoreSnapshot,
   getTasks,
   getTasksByProjectId,
   getUserById,
   getUsers,
   moveTask,
+  patchRawProject,
+  patchRawTask,
+  patchRawUser,
+  resetStore,
   updateTask,
   type Task,
   type TaskStatus,
@@ -58,6 +63,7 @@ export const resolvers = {
         status,
       }: { projectId?: string; status?: TaskStatus },
     ) => getTasks({ projectId, status }),
+    storeSnapshot: () => getStoreSnapshot(),
   },
 
   Mutation: {
@@ -156,6 +162,67 @@ export const resolvers = {
         return toGraphQLError(error)
       }
     },
+
+    updateRawTask: async (
+      _: unknown,
+      {
+        id,
+        patch,
+      }: {
+        id: string
+        patch: {
+          title?: string
+          description?: string | null
+          status?: TaskStatus
+          projectId?: string
+          assigneeId?: string | null
+        }
+      },
+    ) => {
+      try {
+        const task = patchRawTask(id, patch)
+        await publishTaskChange('UPDATED', task.projectId, task)
+        return task
+      } catch (error) {
+        return toGraphQLError(error)
+      }
+    },
+
+    updateRawProject: (
+      _: unknown,
+      {
+        id,
+        patch,
+      }: {
+        id: string
+        patch: { name?: string; description?: string | null }
+      },
+    ) => {
+      try {
+        return patchRawProject(id, patch)
+      } catch (error) {
+        return toGraphQLError(error)
+      }
+    },
+
+    updateRawUser: (
+      _: unknown,
+      {
+        id,
+        patch,
+      }: {
+        id: string
+        patch: { name?: string; email?: string }
+      },
+    ) => {
+      try {
+        return patchRawUser(id, patch)
+      } catch (error) {
+        return toGraphQLError(error)
+      }
+    },
+
+    resetStore: () => resetStore(),
   },
 
   Subscription: {

@@ -73,11 +73,69 @@ input UpdateTaskInput {
   assigneeId: ID
 }
 
+# ── Learning introspection ──────────────────────────────────────────────
+# Raw store types expose the in-memory arrays resolvers read from.
+# Unlike Task/Project, these use scalar foreign keys (projectId, assigneeId).
+
+"""
+A project row as stored in server/src/store.ts (no nested tasks field).
+"""
+type RawProject {
+  id: ID!
+  name: String!
+  description: String
+  createdAt: String!
+}
+
+"""
+A task row as stored in server/src/store.ts (scalar FKs, no nested relations).
+"""
+type RawTask {
+  id: ID!
+  title: String!
+  description: String
+  status: TaskStatus!
+  projectId: ID!
+  assigneeId: ID
+  createdAt: String!
+}
+
+"""
+Full snapshot of the in-memory store — users, projects, and tasks arrays.
+"""
+type StoreSnapshot {
+  users: [User!]!
+  projects: [RawProject!]!
+  tasks: [RawTask!]!
+}
+
+input RawProjectPatch {
+  name: String
+  description: String
+}
+
+input RawTaskPatch {
+  title: String
+  description: String
+  status: TaskStatus
+  projectId: ID
+  assigneeId: ID
+}
+
+input RawUserPatch {
+  name: String
+  email: String
+}
+
 type Query {
   users: [User!]!
   projects: [Project!]!
   project(id: ID!): Project
   tasks(projectId: ID, status: TaskStatus): [Task!]!
+  """
+  Returns the raw in-memory store. Use this to see exactly where resolvers read data from.
+  """
+  storeSnapshot: StoreSnapshot!
 }
 
 type Mutation {
@@ -88,6 +146,22 @@ type Mutation {
   assignTask(id: ID!, userId: ID): Task!
   deleteTask(id: ID!): Task!
   deleteProject(id: ID!): Project!
+  """
+  Patch a raw task row directly in the store (bypasses domain validation).
+  """
+  updateRawTask(id: ID!, patch: RawTaskPatch!): RawTask!
+  """
+  Patch a raw project row directly in the store.
+  """
+  updateRawProject(id: ID!, patch: RawProjectPatch!): RawProject!
+  """
+  Patch a raw user row directly in the store.
+  """
+  updateRawUser(id: ID!, patch: RawUserPatch!): User!
+  """
+  Reset the store to its initial seed data.
+  """
+  resetStore: StoreSnapshot!
 }
 
 type Subscription {

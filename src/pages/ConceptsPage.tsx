@@ -1,4 +1,6 @@
-import { concepts } from '@/content/concepts'
+import { concepts, getConceptFlow } from '@/content/concepts'
+import { OperationFlow } from '@/components/inspector/OperationFlow'
+import { CodeBlock } from '@/components/inspector/CodeBlock'
 import {
   Card,
   CardContent,
@@ -17,7 +19,8 @@ export function ConceptsPage() {
         </p>
         <h1 className="mt-2 text-3xl font-bold tracking-tight md:text-4xl">GraphQL concepts</h1>
         <p className="mt-2 max-w-2xl text-muted-foreground">
-          Reference for every concept Quereek demonstrates. Links from the inspector point here.
+          Deep reference for every concept Quereek demonstrates. Matches the Explained and Flow tabs
+          in the inspector.
         </p>
       </div>
       <Separator />
@@ -33,6 +36,25 @@ export function ConceptsPage() {
                 <p className="text-sm leading-relaxed text-muted-foreground">
                   {concept.description}
                 </p>
+                {concept.details ? (
+                  <p className="text-sm leading-relaxed text-foreground/90">{concept.details}</p>
+                ) : null}
+                {concept.codeExample ? (
+                  <div>
+                    <p className="mb-2 font-mono text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-primary">
+                      Example
+                    </p>
+                    <CodeBlock code={concept.codeExample} language="graphql" />
+                  </div>
+                ) : null}
+                {concept.flow && concept.flow.length > 0 ? (
+                  <div>
+                    <p className="mb-2 font-mono text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-primary">
+                      Data flow
+                    </p>
+                    <OperationFlow steps={getConceptFlow(concept.id)} compact />
+                  </div>
+                ) : null}
                 <div className="rounded-xl border border-border/70 bg-muted/30 p-4">
                   <p className="mb-2 font-mono text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-primary">
                     Where it&apos;s used in Quereek

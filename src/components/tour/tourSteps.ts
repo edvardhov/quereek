@@ -41,8 +41,22 @@ export const TOUR_STEPS: TourStep[] = [
   {
     id: 'inspector',
     target: 'inspector',
-    title: 'GraphQL Inspector',
-    body: 'Every operation lands here: the exact document, variables, response, and a plain-English explanation of the concept you just used. This is how you learn what GraphQL is doing under the hood.',
+    title: 'Learning dock',
+    body: 'Three tabs: Inspector records every GraphQL operation with deep explanations and flow diagrams. Data shows the raw store in server/src/store.ts — edit it live. Lessons guides you step-by-step.',
+    placement: 'left',
+  },
+  {
+    id: 'data-tab',
+    target: 'data-tab',
+    title: 'See the raw data',
+    body: 'The Data tab loads storeSnapshot — the exact arrays resolvers read from. Edit a task title or status and save. The board updates because the store changed.',
+    placement: 'left',
+  },
+  {
+    id: 'lessons-tab',
+    target: 'lessons-tab',
+    title: 'Guided lessons',
+    body: 'Pick a lesson and follow the steps. When you perform the right action on the board, the lesson auto-advances. Manual steps let you confirm when you have read the inspector.',
     placement: 'left',
   },
   {
@@ -56,7 +70,7 @@ export const TOUR_STEPS: TourStep[] = [
   {
     id: 'finish',
     title: "You're ready",
-    body: 'Make a move on the board — create a task, move a card, assign someone — and watch the inspector light up. That loop is the whole learning experience.',
+    body: 'Make a move on the board, open the Inspector Explained tab, peek at the Data source, and try a guided lesson. That loop is the whole learning experience.',
     placement: 'center',
   },
 ]

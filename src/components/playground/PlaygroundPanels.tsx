@@ -8,7 +8,7 @@ import {
   PlusIcon,
 } from 'lucide-react'
 
-import { InspectorPanel } from '@/components/inspector/InspectorPanel'
+import { RightDock } from '@/components/playground/RightDock'
 import { ProjectSidebar } from '@/components/board/ProjectSidebar'
 import {
   ResizableHandle,
@@ -150,7 +150,7 @@ export function PlaygroundPanels({
         className="min-h-0"
       >
         <PanelShell
-          title="GraphQL Inspector"
+          title="Learning dock"
           dataTour="inspector"
           collapsed={collapsed.inspector}
           maximized={isMaximized('inspector')}
@@ -159,7 +159,7 @@ export function PlaygroundPanels({
           onToggleMaximize={() => toggleMaximize('inspector')}
           noPadding
         >
-          <InspectorPanel embedded />
+          <RightDock embedded />
         </PanelShell>
       </ResizablePanel>
     </ResizablePanelGroup>

@@ -23,6 +23,12 @@ export interface Task {
   createdAt: string
 }
 
+export interface StoreSnapshot {
+  users: User[]
+  projects: Project[]
+  tasks: Task[]
+}
+
 let nextId = 100
 
 function createId(prefix: string): string {
@@ -30,65 +36,90 @@ function createId(prefix: string): string {
   return `${prefix}-${nextId}`
 }
 
-const users: User[] = [
-  { id: 'user-1', name: 'Alex Chen', email: 'alex@quereek.dev' },
-  { id: 'user-2', name: 'Jordan Lee', email: 'jordan@quereek.dev' },
-  { id: 'user-3', name: 'Sam Rivera', email: 'sam@quereek.dev' },
-]
+function seed(): StoreSnapshot {
+  nextId = 100
+  return {
+    users: [
+      { id: 'user-1', name: 'Alex Chen', email: 'alex@quereek.dev' },
+      { id: 'user-2', name: 'Jordan Lee', email: 'jordan@quereek.dev' },
+      { id: 'user-3', name: 'Sam Rivera', email: 'sam@quereek.dev' },
+    ],
+    projects: [
+      {
+        id: 'project-1',
+        name: 'Quereek Launch',
+        description: 'Ship the first version of the GraphQL learning app.',
+        createdAt: '2026-06-01T09:00:00.000Z',
+      },
+      {
+        id: 'project-2',
+        name: 'API Workshop',
+        description: 'Internal training materials for GraphQL fundamentals.',
+        createdAt: '2026-06-10T14:30:00.000Z',
+      },
+    ],
+    tasks: [
+      {
+        id: 'task-1',
+        title: 'Define GraphQL schema',
+        description: 'Model users, projects, and tasks with relations.',
+        status: 'DONE',
+        projectId: 'project-1',
+        assigneeId: 'user-1',
+        createdAt: '2026-06-02T10:00:00.000Z',
+      },
+      {
+        id: 'task-2',
+        title: 'Implement query resolvers',
+        description: 'Wire up projects, tasks, and users queries.',
+        status: 'IN_PROGRESS',
+        projectId: 'project-1',
+        assigneeId: 'user-2',
+        createdAt: '2026-06-03T11:15:00.000Z',
+      },
+      {
+        id: 'task-3',
+        title: 'Build Kanban UI',
+        description: 'Three-column board with Apollo Client hooks.',
+        status: 'TODO',
+        projectId: 'project-1',
+        assigneeId: 'user-3',
+        createdAt: '2026-06-04T08:45:00.000Z',
+      },
+      {
+        id: 'task-4',
+        title: 'Draft workshop outline',
+        description: 'Cover schema design, operations, and caching.',
+        status: 'TODO',
+        projectId: 'project-2',
+        assigneeId: 'user-1',
+        createdAt: '2026-06-11T09:20:00.000Z',
+      },
+    ],
+  }
+}
 
-const projects: Project[] = [
-  {
-    id: 'project-1',
-    name: 'Quereek Launch',
-    description: 'Ship the first version of the GraphQL learning app.',
-    createdAt: '2026-06-01T09:00:00.000Z',
-  },
-  {
-    id: 'project-2',
-    name: 'API Workshop',
-    description: 'Internal training materials for GraphQL fundamentals.',
-    createdAt: '2026-06-10T14:30:00.000Z',
-  },
-]
+let users: User[] = []
+let projects: Project[] = []
+let tasks: Task[] = []
 
-const tasks: Task[] = [
-  {
-    id: 'task-1',
-    title: 'Define GraphQL schema',
-    description: 'Model users, projects, and tasks with relations.',
-    status: 'DONE',
-    projectId: 'project-1',
-    assigneeId: 'user-1',
-    createdAt: '2026-06-02T10:00:00.000Z',
-  },
-  {
-    id: 'task-2',
-    title: 'Implement query resolvers',
-    description: 'Wire up projects, tasks, and users queries.',
-    status: 'IN_PROGRESS',
-    projectId: 'project-1',
-    assigneeId: 'user-2',
-    createdAt: '2026-06-03T11:15:00.000Z',
-  },
-  {
-    id: 'task-3',
-    title: 'Build Kanban UI',
-    description: 'Three-column board with Apollo Client hooks.',
-    status: 'TODO',
-    projectId: 'project-1',
-    assigneeId: 'user-3',
-    createdAt: '2026-06-04T08:45:00.000Z',
-  },
-  {
-    id: 'task-4',
-    title: 'Draft workshop outline',
-    description: 'Cover schema design, operations, and caching.',
-    status: 'TODO',
-    projectId: 'project-2',
-    assigneeId: 'user-1',
-    createdAt: '2026-06-11T09:20:00.000Z',
-  },
-]
+function loadSeed() {
+  const snapshot = seed()
+  users = snapshot.users
+  projects = snapshot.projects
+  tasks = snapshot.tasks
+}
+
+loadSeed()
+
+export function getStoreSnapshot(): StoreSnapshot {
+  return { users, projects, tasks }
+}
+
+export function resetStore(): StoreSnapshot {
+  loadSeed()
+  return getStoreSnapshot()
+}
 
 export function getUsers(): User[] {
   return users
@@ -232,4 +263,72 @@ export function deleteProject(id: string): Project {
 
   const [deleted] = projects.splice(index, 1)
   return deleted
+}
+
+export function patchRawTask(
+  id: string,
+  patch: {
+    title?: string
+    description?: string | null
+    status?: TaskStatus
+    projectId?: string
+    assigneeId?: string | null
+  },
+): Task {
+  const task = getTaskById(id)
+  if (!task) {
+    throw new Error(`Task not found: ${id}`)
+  }
+
+  if (patch.projectId !== undefined && !getProjectById(patch.projectId)) {
+    throw new Error(`Project not found: ${patch.projectId}`)
+  }
+
+  if (patch.assigneeId && !getUserById(patch.assigneeId)) {
+    throw new Error(`User not found: ${patch.assigneeId}`)
+  }
+
+  if (patch.title !== undefined) task.title = patch.title
+  if (patch.description !== undefined) task.description = patch.description
+  if (patch.status !== undefined) task.status = patch.status
+  if (patch.projectId !== undefined) task.projectId = patch.projectId
+  if (patch.assigneeId !== undefined) task.assigneeId = patch.assigneeId
+
+  return task
+}
+
+export function patchRawProject(
+  id: string,
+  patch: {
+    name?: string
+    description?: string | null
+  },
+): Project {
+  const project = getProjectById(id)
+  if (!project) {
+    throw new Error(`Project not found: ${id}`)
+  }
+
+  if (patch.name !== undefined) project.name = patch.name
+  if (patch.description !== undefined) project.description = patch.description
+
+  return project
+}
+
+export function patchRawUser(
+  id: string,
+  patch: {
+    name?: string
+    email?: string
+  },
+): User {
+  const user = getUserById(id)
+  if (!user) {
+    throw new Error(`User not found: ${id}`)
+  }
+
+  if (patch.name !== undefined) user.name = patch.name
+  if (patch.email !== undefined) user.email = patch.email
+
+  return user
 }
