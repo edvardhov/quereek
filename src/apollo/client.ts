@@ -9,42 +9,36 @@ import { GraphQLWsLink } from '@apollo/client/link/subscriptions'
 import { getMainDefinition } from '@apollo/client/utilities'
 import { createClient } from 'graphql-ws'
 
+import { resolveEndpoint } from '@/config/endpoint'
+import { createLocalSchemaLink } from '@/demo/localSchemaLink'
 import { inspectorLink } from '@/inspector/inspectorLink'
 
-const httpUri = '/graphql'
+function createTransportLink(): ApolloLink {
+  const endpoint = resolveEndpoint()
 
-const httpLink = new HttpLink({ uri: httpUri })
+  // No server configured: run the schema in the browser (demo mode).
+  if (!endpoint) {
+    return createLocalSchemaLink()
+  }
 
-function createWsLink() {
-  const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
-  const wsUri = `${protocol}//${window.location.host}/graphql`
+  const httpLink = new HttpLink({ uri: endpoint.http })
+  const wsLink = new GraphQLWsLink(createClient({ url: endpoint.ws }))
 
-  return new GraphQLWsLink(
-    createClient({
-      url: wsUri,
-    }),
+  return split(
+    ({ query }) => {
+      const definition = getMainDefinition(query)
+      return (
+        definition.kind === 'OperationDefinition' &&
+        definition.operation === 'subscription'
+      )
+    },
+    wsLink,
+    httpLink,
   )
 }
 
-const wsLink = typeof window !== 'undefined' ? createWsLink() : null
-
-const terminatingLink =
-  wsLink == null
-    ? httpLink
-    : split(
-        ({ query }) => {
-          const definition = getMainDefinition(query)
-          return (
-            definition.kind === 'OperationDefinition' &&
-            definition.operation === 'subscription'
-          )
-        },
-        wsLink,
-        httpLink,
-      )
-
 export const client = new ApolloClient({
-  link: ApolloLink.from([inspectorLink, terminatingLink]),
+  link: ApolloLink.from([inspectorLink, createTransportLink()]),
   cache: new InMemoryCache({
     typePolicies: {
       Project: {
