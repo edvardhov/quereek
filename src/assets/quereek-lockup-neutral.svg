@@ -12,8 +12,8 @@
 </filter>
 </defs>
 <circle cx="86" cy="86.0" r="46" fill="#F08C2E"/>
-<path d="M78.68 65.09 C 70.32 65.09 70.32 80.77 63.00 86.00 C 70.32 91.23 70.32 106.91 78.68 106.91" fill="none" stroke="#FFFFFF" stroke-width="5.75" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M93.32 65.09 C 101.68 65.09 101.68 80.77 109.00 86.00 C 101.68 91.23 101.68 106.91 93.32 106.91" fill="none" stroke="#FFFFFF" stroke-width="5.75" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M78.68 65.09 C 70.32 65.09 70.32 80.77 63.00 86.00 C 70.32 91.23 70.32 106.91 78.68 106.91" fill="none" stroke="#0a0a0a" stroke-width="5.75" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M93.32 65.09 C 101.68 65.09 101.68 80.77 109.00 86.00 C 101.68 91.23 101.68 106.91 93.32 106.91" fill="none" stroke="#0a0a0a" stroke-width="5.75" stroke-linecap="round" stroke-linejoin="round"/>
 <g filter="url(#halo)">
 <path d="M298 560Q362 560 411.5 534.0Q461 508 488 471V551H603V-262H488V80Q461 43 410.0 17.0Q359 -9 294 -9Q223 -9 164.5 27.5Q106 64 71.5 129.5Q37 195 37 278Q37 361 71.5 425.0Q106 489 165.5 524.5Q225 560 298 560ZM321 461Q277 461 239.0 439.5Q201 418 177.5 376.5Q154 335 154 278Q154 221 177.5 178.0Q201 135 239.5 112.5Q278 90 321 90Q365 90 403.0 112.0Q441 134 464.5 176.5Q488 219 488 276Q488 333 464.5 375.0Q441 417 403.0 439.0Q365 461 321 461Z" fill="#0a0a0a" transform="translate(146.00,101.34) scale(0.05600,-0.05600)"/>
 <path d="M574 551V0H460V65Q433 31 389.5 11.5Q346 -8 297 -8Q232 -8 180.5 19.0Q129 46 99.5 99.0Q70 152 70 227V551H183V244Q183 170 220.0 130.5Q257 91 321 91Q385 91 422.5 130.5Q460 170 460 244V551Z" fill="#0a0a0a" transform="translate(182.97,101.34) scale(0.05600,-0.05600)"/>
