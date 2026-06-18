@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Live in-browser demo: the GraphQL schema, resolvers, and store run client-side
+  with no backend, deployed to GitHub Pages.
+- Configurable GraphQL endpoint (`?api=` query param or local storage) with a
+  **Server** panel to connect to a running server or use the in-browser demo.
+
 ## [0.1.0] - 2026-06-18
 
 ### Added

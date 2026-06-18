@@ -14,7 +14,22 @@ Built with Apollo Server 5 · Apollo Client 4 · React 19 · shadcn/ui · Vite �
 [![Node](https://img.shields.io/badge/node-%3E%3D20-brightgreen.svg)](.nvmrc)
 [![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
+**[▶ Try the live demo](https://edvardhov.github.io/quereek/)** — runs entirely in your browser, no setup.
+
 </div>
+
+---
+
+## Live demo
+
+The hosted app at **[edvardhov.github.io/quereek](https://edvardhov.github.io/quereek/)** runs the GraphQL schema **inside your browser** — the same `typeDefs`, resolvers, and in-memory store the real server uses, executed client-side. No backend, no sign-up, nothing to install.
+
+Want to see real network requests and WebSocket subscriptions instead? Open the **Server** panel in the top bar and connect to a running server:
+
+1. Clone the repo and run `npm run dev` (starts the server on `http://localhost:4000`).
+2. In the demo, click **Server → Use local server** (or paste `http://localhost:4000/graphql`).
+
+The endpoint can also be set via the `?api=<url>` query parameter or persisted in local storage. With no server configured, the app falls back to the in-browser demo. Cross-tab subscriptions (two browser tabs reacting to each other) only work against a real server.
 
 ---
 

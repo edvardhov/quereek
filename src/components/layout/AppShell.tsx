@@ -2,6 +2,7 @@ import { NavLink, Outlet } from 'react-router-dom'
 
 import { BrandMark } from '@/components/brand/BrandMark'
 import { ScrollToHash } from '@/components/layout/ScrollToHash'
+import { ServerSettings } from '@/components/layout/ServerSettings'
 import { ThemeToggle } from '@/components/theme/ThemeToggle'
 import { cn } from '@/lib/utils'
 
@@ -44,7 +45,8 @@ export function NavBar() {
               {link.label}
             </NavLink>
           ))}
-          <div className="ml-1 border-l border-border/60 pl-1">
+          <div className="ml-1 flex items-center gap-1 border-l border-border/60 pl-1">
+            <ServerSettings />
             <ThemeToggle />
           </div>
         </nav>
