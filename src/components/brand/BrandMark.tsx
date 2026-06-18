@@ -3,6 +3,8 @@ import { cn } from '@/lib/utils'
 type BrandMarkProps = {
   className?: string
   iconSize?: number
+  /** Responsive size override for the icon (CSS wins over the width/height attrs). */
+  iconClassName?: string
   showWordmark?: boolean
   wordmarkClassName?: string
 }
@@ -15,6 +17,7 @@ type BrandMarkProps = {
 export function BrandMark({
   className,
   iconSize = 32,
+  iconClassName,
   showWordmark = true,
   wordmarkClassName,
 }: BrandMarkProps) {
@@ -26,7 +29,7 @@ export function BrandMark({
         viewBox="0 0 96 96"
         role="img"
         aria-label="Quereek"
-        className="shrink-0"
+        className={cn('shrink-0', iconClassName)}
       >
         <circle cx="48" cy="48" r="44" fill="#F08C2E" />
         <path

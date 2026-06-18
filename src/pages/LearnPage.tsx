@@ -94,7 +94,11 @@ export function LearnPage() {
             </Button>
             <Sheet>
               <SheetTrigger asChild>
-                <Button variant="outline" size="sm" className="xl:hidden">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="hidden sm:inline-flex xl:hidden"
+                >
                   <PanelRightIcon className="size-4" />
                   Learning dock
                 </Button>
@@ -139,7 +143,7 @@ export function LearnPage() {
           />
         </div>
       ) : (
-        <div className="grid min-h-0 flex-1 gap-4 lg:grid-cols-[18rem_minmax(0,1fr)]">
+        <div className="grid min-h-0 flex-1 grid-cols-1 gap-4 lg:grid-cols-[18rem_minmax(0,1fr)]">
           <div data-tour="projects" className="min-h-0">
             <ProjectSidebar
               selectedProjectId={selectedProjectId}

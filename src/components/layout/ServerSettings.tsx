@@ -46,11 +46,15 @@ export function ServerSettings() {
         <Button
           variant="ghost"
           size="sm"
-          className="gap-2 rounded-full"
+          className="gap-1.5 rounded-full px-2 sm:px-3"
           aria-label="GraphQL server settings"
+          title={demo ? 'Demo (in-browser)' : 'Connected to a server'}
         >
           <ServerIcon className="size-4" />
-          <Badge variant={demo ? 'secondary' : 'default'} className="px-2">
+          <Badge
+            variant={demo ? 'secondary' : 'default'}
+            className="hidden px-2 sm:inline-flex"
+          >
             {demo ? 'Demo' : 'Server'}
           </Badge>
         </Button>
