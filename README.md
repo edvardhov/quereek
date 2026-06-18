@@ -11,6 +11,12 @@ A Kanban task manager where **every action shows you the exact GraphQL operation
 
 Built with Apollo Server 5 · Apollo Client 4 · React 19 · shadcn/ui · Vite · Tailwind v4
 
+[![CI](https://github.com/edvardhov/quereek/actions/workflows/ci.yml/badge.svg)](https://github.com/edvardhov/quereek/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/edvardhov/quereek/actions/workflows/codeql.yml/badge.svg)](https://github.com/edvardhov/quereek/actions/workflows/codeql.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Node](https://img.shields.io/badge/node-%3E%3D20-brightgreen.svg)](.nvmrc)
+[![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+
 </div>
 
 ---
@@ -23,17 +29,17 @@ Quereek turns a familiar app (a Kanban board) into an interactive GraphQL classr
 2. **Inspect** — the inspector records the exact GraphQL operation, variables, and JSON response for every action.
 3. **Understand** — each event ships with a plain-English explanation, a step-by-step operation flow, and a link to a concept reference.
 
-The local workspace folder is `graphql-app`; the GitHub repository is [`quereek`](https://github.com/edvardhov/quereek).
+The GitHub repository is [`quereek`](https://github.com/edvardhov/quereek).
 
 ## How it teaches
 
 The app has three routes:
 
-| Route | Purpose |
-|---|---|
-| `/` | Landing page — what you'll learn and the Act → Inspect → Understand model. |
-| `/learn` | The playground: a three-panel, resizable workspace (Projects · Board · Learning dock). |
-| `/concepts` | Reference for every GraphQL concept, deep-linked from inspector events. |
+| Route       | Purpose                                                                                |
+| ----------- | -------------------------------------------------------------------------------------- |
+| `/`         | Landing page — what you'll learn and the Act → Inspect → Understand model.             |
+| `/learn`    | The playground: a three-panel, resizable workspace (Projects · Board · Learning dock). |
+| `/concepts` | Reference for every GraphQL concept, deep-linked from inspector events.                |
 
 ### The playground (`/learn`)
 
@@ -60,15 +66,15 @@ The inspector is powered by a custom `ApolloLink` in [`src/inspector/inspectorLi
 
 ## What you'll learn
 
-| GraphQL concept | Where it shows up |
-|---|---|
-| Schema / SDL | [`server/schema.graphql`](server/schema.graphql) |
-| Queries | `GetProjects`, `GetProjectBoard` in the inspector |
-| Mutations | `CreateTask`, `MoveTask`, `AssignTask`, `DeleteTask`, … |
-| Subscriptions | `TaskChanged` events over WebSocket |
-| Fragments | [`src/graphql/fragments.ts`](src/graphql/fragments.ts) |
-| Normalized cache | Mutation cache updates on the board |
-| Optimistic UI | Move/assign actions update before the server responds |
+| GraphQL concept  | Where it shows up                                                                                |
+| ---------------- | ------------------------------------------------------------------------------------------------ |
+| Schema / SDL     | [`server/schema.graphql`](server/schema.graphql)                                                 |
+| Queries          | `GetProjects`, `GetProjectBoard` in the inspector                                                |
+| Mutations        | `CreateTask`, `MoveTask`, `AssignTask`, `DeleteTask`, …                                          |
+| Subscriptions    | `TaskChanged` events over WebSocket                                                              |
+| Fragments        | [`src/graphql/fragments.ts`](src/graphql/fragments.ts)                                           |
+| Normalized cache | Mutation cache updates on the board                                                              |
+| Optimistic UI    | Move/assign actions update before the server responds                                            |
 | Server internals | The **Data** tab maps domain types (`Task`, `Project`) to the raw store rows resolvers read from |
 
 ## Stack
@@ -102,6 +108,10 @@ npm run codegen      # generate typed operations into src/__generated__/
 npm run build        # type-check + production build
 npm run preview      # preview the production build
 npm run lint         # eslint
+npm run format       # format with prettier
+npm run format:check # verify formatting (used in CI)
+npm test             # run the vitest suite once
+npm run test:watch   # run vitest in watch mode
 ```
 
 ## Project structure
@@ -141,7 +151,7 @@ Import paths use the `@/` alias (maps to `src/`).
 
 1. Read the landing page — understand **Act → Inspect → Understand**.
 2. Open `/learn` and take the guided tour.
-3. Open the **Lessons** tab and start *"Read data with a query"* — select a project and watch `GetProjects` / `GetProjectBoard` fire.
+3. Open the **Lessons** tab and start _"Read data with a query"_ — select a project and watch `GetProjects` / `GetProjectBoard` fire.
 4. Create a task — inspect the `CreateTask` mutation and its input type in the **Flow** tab.
 5. Move a task — see optimistic UI (`MoveTask`) update before the server responds.
 6. Open the **Data** tab — edit a raw task row and watch the board update via cache/subscription.
@@ -160,6 +170,12 @@ The full SDL lives in [`server/schema.graphql`](server/schema.graphql). Highligh
 ## Apollo skills
 
 Apollo's authoring skills live in `.agents/skills/` (`graphql-schema`, `apollo-server`, `graphql-operations`, `apollo-client`, and more) and back the in-app concept reference.
+
+## Contributing
+
+Contributions are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for setup, the
+local check suite, and the PR workflow, and the [Code of Conduct](CODE_OF_CONDUCT.md)
+for community expectations. Security issues should follow [SECURITY.md](SECURITY.md).
 
 ## License
 
