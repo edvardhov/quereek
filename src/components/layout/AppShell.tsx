@@ -1,4 +1,4 @@
-import { NavLink, Outlet } from 'react-router-dom'
+import { NavLink, Outlet, useLocation } from 'react-router-dom'
 
 import { BrandMark } from '@/components/brand/BrandMark'
 import { ScrollToHash } from '@/components/layout/ScrollToHash'
@@ -13,6 +13,8 @@ const links = [
 ]
 
 export function NavBar() {
+  const onLearnPage = useLocation().pathname.startsWith('/learn')
+
   return (
     <header className="fixed inset-x-0 top-0 z-50 h-[var(--header-h)] border-b border-border/60 bg-background/70 backdrop-blur-xl supports-[backdrop-filter]:bg-background/55">
       <div className="mx-auto flex h-full max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
@@ -46,7 +48,7 @@ export function NavBar() {
             </NavLink>
           ))}
           <div className="ml-1 flex items-center gap-1 border-l border-border/60 pl-1">
-            <ServerSettings />
+            {onLearnPage && <ServerSettings />}
             <ThemeToggle />
           </div>
         </nav>
