@@ -70,14 +70,13 @@ export function DataSourcePanel() {
     })
   }, [refetch])
 
-  const [resetStore, { loading: resetting }] = useMutation<{ resetStore: StoreSnapshotData['storeSnapshot'] }>(
-    RESET_STORE,
-    {
-      refetchQueries: [{ query: GET_PROJECTS }, { query: STORE_SNAPSHOT }],
-      onCompleted: () => toast.success('Store reset to seed data'),
-      onError: (err) => toast.error(err.message),
-    },
-  )
+  const [resetStore, { loading: resetting }] = useMutation<{
+    resetStore: StoreSnapshotData['storeSnapshot']
+  }>(RESET_STORE, {
+    refetchQueries: [{ query: GET_PROJECTS }, { query: STORE_SNAPSHOT }],
+    onCompleted: () => toast.success('Store reset to seed data'),
+    onError: (err) => toast.error(err.message),
+  })
 
   const handleReset = async () => {
     await resetStore()
@@ -109,7 +108,9 @@ export function DataSourcePanel() {
             <DatabaseIcon className="size-4" />
           </span>
           <div className="min-w-0 flex-1">
-            <h2 className="font-display text-sm font-semibold leading-tight">Data source</h2>
+            <h2 className="font-display text-sm font-semibold leading-tight">
+              Data source
+            </h2>
             <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground">
               Live view of{' '}
               <code className="rounded bg-muted px-1 py-0.5 font-mono text-[0.65rem]">
@@ -148,14 +149,22 @@ export function DataSourcePanel() {
           <TabsContent value="users" className="mt-0 p-4 pt-3">
             <EntityList>
               {(snapshot?.users ?? []).map((user) => (
-                <UserRow key={user.id} user={user} onSaved={() => void refetch()} />
+                <UserRow
+                  key={user.id}
+                  user={user}
+                  onSaved={() => void refetch()}
+                />
               ))}
             </EntityList>
           </TabsContent>
           <TabsContent value="projects" className="mt-0 p-4 pt-3">
             <EntityList>
               {(snapshot?.projects ?? []).map((project) => (
-                <ProjectRow key={project.id} project={project} onSaved={() => void refetch()} />
+                <ProjectRow
+                  key={project.id}
+                  project={project}
+                  onSaved={() => void refetch()}
+                />
               ))}
             </EntityList>
           </TabsContent>
@@ -231,20 +240,38 @@ function UserRow({ user, onSaved }: { user: RawUser; onSaved: () => void }) {
   return (
     <RawRowShell id={user.id} onSave={save} saving={loading}>
       <Field label="name">
-        <Input value={name} onChange={(e) => setName(e.target.value)} className="h-8 text-xs" />
+        <Input
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          className="h-8 text-xs"
+        />
       </Field>
       <Field label="email">
-        <Input value={email} onChange={(e) => setEmail(e.target.value)} className="h-8 text-xs" />
+        <Input
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="h-8 text-xs"
+        />
       </Field>
     </RawRowShell>
   )
 }
 
-function ProjectRow({ project, onSaved }: { project: RawProject; onSaved: () => void }) {
+function ProjectRow({
+  project,
+  onSaved,
+}: {
+  project: RawProject
+  onSaved: () => void
+}) {
   const [name, setName] = useState(project.name)
   const [description, setDescription] = useState(project.description ?? '')
   const [updateRawProject, { loading }] = useMutation(UPDATE_RAW_PROJECT, {
-    refetchQueries: [{ query: STORE_SNAPSHOT }, { query: GET_PROJECTS }, { query: GET_PROJECT_BOARD }],
+    refetchQueries: [
+      { query: STORE_SNAPSHOT },
+      { query: GET_PROJECTS },
+      { query: GET_PROJECT_BOARD },
+    ],
     onCompleted: () => {
       toast.success('Project updated')
       onSaved()
@@ -254,14 +281,21 @@ function ProjectRow({ project, onSaved }: { project: RawProject; onSaved: () => 
 
   const save = () => {
     void updateRawProject({
-      variables: { id: project.id, patch: { name, description: description || null } },
+      variables: {
+        id: project.id,
+        patch: { name, description: description || null },
+      },
     })
   }
 
   return (
     <RawRowShell id={project.id} onSave={save} saving={loading}>
       <Field label="name">
-        <Input value={name} onChange={(e) => setName(e.target.value)} className="h-8 text-xs" />
+        <Input
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          className="h-8 text-xs"
+        />
       </Field>
       <Field label="description">
         <Input
@@ -311,10 +345,17 @@ function TaskRow({
   return (
     <RawRowShell id={task.id} onSave={save} saving={loading}>
       <Field label="title">
-        <Input value={title} onChange={(e) => setTitle(e.target.value)} className="h-8 text-xs" />
+        <Input
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          className="h-8 text-xs"
+        />
       </Field>
       <Field label="status">
-        <Select value={status} onValueChange={(v) => setStatus(v as TaskStatus)}>
+        <Select
+          value={status}
+          onValueChange={(v) => setStatus(v as TaskStatus)}
+        >
           <SelectTrigger className="h-8 text-xs">
             <SelectValue />
           </SelectTrigger>
@@ -343,13 +384,21 @@ function TaskRow({
         </Select>
       </Field>
       <Field label="projectId">
-        <span className={cn('font-mono text-xs text-muted-foreground')}>{task.projectId}</span>
+        <span className={cn('font-mono text-xs text-muted-foreground')}>
+          {task.projectId}
+        </span>
       </Field>
     </RawRowShell>
   )
 }
 
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
+function Field({
+  label,
+  children,
+}: {
+  label: string
+  children: React.ReactNode
+}) {
   return (
     <div className="flex flex-col gap-1">
       <label className="font-mono text-[0.6rem] uppercase tracking-wider text-muted-foreground">

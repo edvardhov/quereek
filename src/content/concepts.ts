@@ -27,36 +27,133 @@ export type Concept = {
 }
 
 const QUERY_FLOW: FlowStep[] = [
-  { kind: 'ui', label: 'UI component', detail: 'React component calls useQuery()' },
-  { kind: 'apollo', label: 'Apollo Client', detail: 'Builds the GraphQL document and variables' },
-  { kind: 'transport', label: 'HTTP POST', detail: 'Sends request to /graphql' },
-  { kind: 'resolver', label: 'Query resolver', detail: 'Server runs the matching resolver function' },
-  { kind: 'store', label: 'In-memory store', detail: 'Reads from arrays in server/src/store.ts' },
-  { kind: 'response', label: 'JSON response', detail: 'Server returns only the fields you asked for' },
-  { kind: 'cache', label: 'Apollo cache', detail: 'Normalizes entities by __typename + id' },
-  { kind: 'ui-update', label: 'UI re-renders', detail: 'Component receives data from the cache' },
+  {
+    kind: 'ui',
+    label: 'UI component',
+    detail: 'React component calls useQuery()',
+  },
+  {
+    kind: 'apollo',
+    label: 'Apollo Client',
+    detail: 'Builds the GraphQL document and variables',
+  },
+  {
+    kind: 'transport',
+    label: 'HTTP POST',
+    detail: 'Sends request to /graphql',
+  },
+  {
+    kind: 'resolver',
+    label: 'Query resolver',
+    detail: 'Server runs the matching resolver function',
+  },
+  {
+    kind: 'store',
+    label: 'In-memory store',
+    detail: 'Reads from arrays in server/src/store.ts',
+  },
+  {
+    kind: 'response',
+    label: 'JSON response',
+    detail: 'Server returns only the fields you asked for',
+  },
+  {
+    kind: 'cache',
+    label: 'Apollo cache',
+    detail: 'Normalizes entities by __typename + id',
+  },
+  {
+    kind: 'ui-update',
+    label: 'UI re-renders',
+    detail: 'Component receives data from the cache',
+  },
 ]
 
 const MUTATION_FLOW: FlowStep[] = [
-  { kind: 'ui', label: 'User action', detail: 'Button click or form submit triggers useMutation()' },
-  { kind: 'apollo', label: 'Apollo Client', detail: 'Sends mutation document + variables (may apply optimisticResponse)' },
-  { kind: 'transport', label: 'HTTP POST', detail: 'Sends request to /graphql' },
-  { kind: 'resolver', label: 'Mutation resolver', detail: 'Server validates input and calls store function' },
-  { kind: 'store', label: 'In-memory store', detail: 'Creates, updates, or deletes a row in the arrays' },
-  { kind: 'response', label: 'JSON response', detail: 'Returns the changed object' },
-  { kind: 'cache', label: 'Apollo cache', detail: 'Merges the returned object into the normalized cache' },
-  { kind: 'ui-update', label: 'UI updates', detail: 'Board/sidebar reflects the change without a full refetch' },
+  {
+    kind: 'ui',
+    label: 'User action',
+    detail: 'Button click or form submit triggers useMutation()',
+  },
+  {
+    kind: 'apollo',
+    label: 'Apollo Client',
+    detail:
+      'Sends mutation document + variables (may apply optimisticResponse)',
+  },
+  {
+    kind: 'transport',
+    label: 'HTTP POST',
+    detail: 'Sends request to /graphql',
+  },
+  {
+    kind: 'resolver',
+    label: 'Mutation resolver',
+    detail: 'Server validates input and calls store function',
+  },
+  {
+    kind: 'store',
+    label: 'In-memory store',
+    detail: 'Creates, updates, or deletes a row in the arrays',
+  },
+  {
+    kind: 'response',
+    label: 'JSON response',
+    detail: 'Returns the changed object',
+  },
+  {
+    kind: 'cache',
+    label: 'Apollo cache',
+    detail: 'Merges the returned object into the normalized cache',
+  },
+  {
+    kind: 'ui-update',
+    label: 'UI updates',
+    detail: 'Board/sidebar reflects the change without a full refetch',
+  },
 ]
 
 const SUBSCRIPTION_FLOW: FlowStep[] = [
-  { kind: 'ui', label: 'Board mounts', detail: 'useSubscription() opens a WebSocket connection' },
-  { kind: 'apollo', label: 'Apollo Client', detail: 'Subscribes via graphql-ws link' },
-  { kind: 'websocket', label: 'WebSocket', detail: 'Persistent connection to /graphql' },
-  { kind: 'resolver', label: 'Subscription filter', detail: 'Server filters events by projectId' },
-  { kind: 'store', label: 'PubSub event', detail: 'Published after a mutation changes a task' },
-  { kind: 'response', label: 'Push payload', detail: 'TaskChangeEvent sent to all subscribed clients' },
-  { kind: 'cache', label: 'Cache update', detail: 'onData handler patches the board query in cache' },
-  { kind: 'ui-update', label: 'Live board update', detail: 'Task cards move without refreshing the page' },
+  {
+    kind: 'ui',
+    label: 'Board mounts',
+    detail: 'useSubscription() opens a WebSocket connection',
+  },
+  {
+    kind: 'apollo',
+    label: 'Apollo Client',
+    detail: 'Subscribes via graphql-ws link',
+  },
+  {
+    kind: 'websocket',
+    label: 'WebSocket',
+    detail: 'Persistent connection to /graphql',
+  },
+  {
+    kind: 'resolver',
+    label: 'Subscription filter',
+    detail: 'Server filters events by projectId',
+  },
+  {
+    kind: 'store',
+    label: 'PubSub event',
+    detail: 'Published after a mutation changes a task',
+  },
+  {
+    kind: 'response',
+    label: 'Push payload',
+    detail: 'TaskChangeEvent sent to all subscribed clients',
+  },
+  {
+    kind: 'cache',
+    label: 'Cache update',
+    detail: 'onData handler patches the board query in cache',
+  },
+  {
+    kind: 'ui-update',
+    label: 'Live board update',
+    detail: 'Task cards move without refreshing the page',
+  },
 ]
 
 export const concepts: Concept[] = [
@@ -223,9 +320,21 @@ Task: {
 }`,
     whereUsed: ['server/src/resolvers.ts'],
     flow: [
-      { kind: 'resolver', label: 'Parent resolver', detail: 'Query.project returns a Project row from store' },
-      { kind: 'resolver', label: 'Field resolver', detail: 'Project.tasks runs getTasksByProjectId(id)' },
-      { kind: 'store', label: 'Store lookup', detail: 'Filters tasks[] where projectId matches' },
+      {
+        kind: 'resolver',
+        label: 'Parent resolver',
+        detail: 'Query.project returns a Project row from store',
+      },
+      {
+        kind: 'resolver',
+        label: 'Field resolver',
+        detail: 'Project.tasks runs getTasksByProjectId(id)',
+      },
+      {
+        kind: 'store',
+        label: 'Store lookup',
+        detail: 'Filters tasks[] where projectId matches',
+      },
     ],
   },
   {
@@ -241,10 +350,26 @@ Task: {
 // { Task:task-1: { ..., status: "DONE" } }  ← merged in place`,
     whereUsed: ['createTask cache update', 'deleteTask cache update'],
     flow: [
-      { kind: 'response', label: 'Mutation response', detail: 'Server returns updated Task object' },
-      { kind: 'cache', label: 'Normalize', detail: 'Apollo extracts Task:task-1 from response' },
-      { kind: 'cache', label: 'Merge', detail: 'New fields overwrite existing cache entry' },
-      { kind: 'ui-update', label: 'Re-render', detail: 'All components reading that Task update' },
+      {
+        kind: 'response',
+        label: 'Mutation response',
+        detail: 'Server returns updated Task object',
+      },
+      {
+        kind: 'cache',
+        label: 'Normalize',
+        detail: 'Apollo extracts Task:task-1 from response',
+      },
+      {
+        kind: 'cache',
+        label: 'Merge',
+        detail: 'New fields overwrite existing cache entry',
+      },
+      {
+        kind: 'ui-update',
+        label: 'Re-render',
+        detail: 'All components reading that Task update',
+      },
     ],
   },
   {
@@ -262,11 +387,32 @@ Task: {
 })`,
     whereUsed: ['TaskCard move and assign actions'],
     flow: [
-      { kind: 'ui', label: 'User clicks move', detail: 'Mutation called with new status' },
-      { kind: 'cache', label: 'Optimistic write', detail: 'Apollo writes fake response to cache immediately' },
-      { kind: 'ui-update', label: 'Instant UI', detail: 'Card moves to new column before network round-trip' },
-      { kind: 'transport', label: 'Server confirms', detail: 'Real mutation completes' },
-      { kind: 'cache', label: 'Replace or rollback', detail: 'Real response replaces optimistic data, or rolls back on error' },
+      {
+        kind: 'ui',
+        label: 'User clicks move',
+        detail: 'Mutation called with new status',
+      },
+      {
+        kind: 'cache',
+        label: 'Optimistic write',
+        detail: 'Apollo writes fake response to cache immediately',
+      },
+      {
+        kind: 'ui-update',
+        label: 'Instant UI',
+        detail: 'Card moves to new column before network round-trip',
+      },
+      {
+        kind: 'transport',
+        label: 'Server confirms',
+        detail: 'Real mutation completes',
+      },
+      {
+        kind: 'cache',
+        label: 'Replace or rollback',
+        detail:
+          'Real response replaces optimistic data, or rolls back on error',
+      },
     ],
   },
   {
@@ -326,7 +472,7 @@ export const operationExplanations: Record<string, OperationExplanation> = {
     title: 'Loaded the Kanban board',
     summary:
       'This query fetches one project with its tasks and the user list for assignees. Nested fields (tasks, assignee) are resolved on the server.',
-    what: 'When you select a project, the Board component loads that project\'s tasks and all users (for the assignee dropdown) in one query.',
+    what: "When you select a project, the Board component loads that project's tasks and all users (for the assignee dropdown) in one query.",
     how: 'The query asks for project(id), project.tasks, and users in parallel. Query.project calls getProjectById(). Project.tasks field resolver calls getTasksByProjectId(). Task.assignee resolver looks up users by assigneeId. Query.users calls getUsers().',
     dataSource: 'server/src/store.ts → projects[], tasks[], users[]',
     resolverPath: [
@@ -365,7 +511,8 @@ export const operationExplanations: Record<string, OperationExplanation> = {
     flow: MUTATION_FLOW,
     fieldNotes: {
       input: 'CreateProjectInput — name (required), description (optional)',
-      'createProject': 'Returns the new Project object with generated id and createdAt',
+      createProject:
+        'Returns the new Project object with generated id and createdAt',
     },
   },
   CreateTask: {
@@ -376,17 +523,26 @@ export const operationExplanations: Record<string, OperationExplanation> = {
     what: 'You added a new task to the board. A task row is created in the store with status TODO by default.',
     how: 'Mutation.createTask validates the projectId exists, creates a task row in tasks[], publishes a CREATED event via PubSub for subscribers, and returns the new Task with resolved fields.',
     dataSource: 'server/src/store.ts → tasks[] (push new row)',
-    resolverPath: ['Mutation.createTask', 'createTask(input)', 'publishTaskChange(CREATED)'],
+    resolverPath: [
+      'Mutation.createTask',
+      'createTask(input)',
+      'publishTaskChange(CREATED)',
+    ],
     flow: MUTATION_FLOW,
   },
   UpdateTask: {
     conceptId: 'mutations',
     title: 'Updated a task',
-    summary: 'Partial updates via UpdateTaskInput. Only changed fields are sent.',
+    summary:
+      'Partial updates via UpdateTaskInput. Only changed fields are sent.',
     what: 'One or more task fields were changed (title, description, status, or assignee).',
     how: 'Mutation.updateTask finds the task by id in tasks[], applies only the provided fields from UpdateTaskInput, publishes an UPDATED subscription event, and returns the updated Task.',
     dataSource: 'server/src/store.ts → tasks[] (find by id, patch fields)',
-    resolverPath: ['Mutation.updateTask', 'updateTask(id, input)', 'publishTaskChange(UPDATED)'],
+    resolverPath: [
+      'Mutation.updateTask',
+      'updateTask(id, input)',
+      'publishTaskChange(UPDATED)',
+    ],
     flow: MUTATION_FLOW,
   },
   MoveTask: {
@@ -397,19 +553,52 @@ export const operationExplanations: Record<string, OperationExplanation> = {
     what: 'You clicked a move button on a task card. The task status changes to TODO, IN_PROGRESS, or DONE.',
     how: 'Apollo applies optimisticResponse immediately (card moves before server reply). The server calls moveTask() which is updateTask(id, { status }). On success, the real response replaces the optimistic cache entry.',
     dataSource: 'server/src/store.ts → tasks[] (find by id, set status)',
-    resolverPath: ['Mutation.moveTask', 'moveTask(id, status)', 'updateTask(id, { status })'],
+    resolverPath: [
+      'Mutation.moveTask',
+      'moveTask(id, status)',
+      'updateTask(id, { status })',
+    ],
     flow: [
-      { kind: 'ui', label: 'Move button clicked', detail: 'TaskCard calls moveTask mutation' },
-      { kind: 'cache', label: 'Optimistic write', detail: 'Card moves instantly via optimisticResponse' },
-      { kind: 'transport', label: 'HTTP POST', detail: 'Mutation sent to server' },
-      { kind: 'resolver', label: 'moveTask resolver', detail: 'Updates status in tasks[]' },
-      { kind: 'store', label: 'tasks[] updated', detail: 'Task row status field changed' },
-      { kind: 'response', label: 'Updated Task returned', detail: 'Replaces optimistic data in cache' },
-      { kind: 'ui-update', label: 'Confirmed', detail: 'Board shows final state from server' },
+      {
+        kind: 'ui',
+        label: 'Move button clicked',
+        detail: 'TaskCard calls moveTask mutation',
+      },
+      {
+        kind: 'cache',
+        label: 'Optimistic write',
+        detail: 'Card moves instantly via optimisticResponse',
+      },
+      {
+        kind: 'transport',
+        label: 'HTTP POST',
+        detail: 'Mutation sent to server',
+      },
+      {
+        kind: 'resolver',
+        label: 'moveTask resolver',
+        detail: 'Updates status in tasks[]',
+      },
+      {
+        kind: 'store',
+        label: 'tasks[] updated',
+        detail: 'Task row status field changed',
+      },
+      {
+        kind: 'response',
+        label: 'Updated Task returned',
+        detail: 'Replaces optimistic data in cache',
+      },
+      {
+        kind: 'ui-update',
+        label: 'Confirmed',
+        detail: 'Board shows final state from server',
+      },
     ],
     fieldNotes: {
       status: 'TaskStatus enum — TODO | IN_PROGRESS | DONE',
-      optimisticResponse: 'Client-side fake response applied before server confirms',
+      optimisticResponse:
+        'Client-side fake response applied before server confirms',
     },
   },
   AssignTask: {
@@ -420,15 +609,47 @@ export const operationExplanations: Record<string, OperationExplanation> = {
     what: 'You selected an assignee from the dropdown on a task card.',
     how: 'Apollo optimistically updates the assignee in cache. Server calls assignTask() which sets assigneeId on the task row. Task.assignee field resolver will look up the User on next query.',
     dataSource: 'server/src/store.ts → tasks[] (find by id, set assigneeId)',
-    resolverPath: ['Mutation.assignTask', 'assignTask(id, userId)', 'updateTask(id, { assigneeId })'],
+    resolverPath: [
+      'Mutation.assignTask',
+      'assignTask(id, userId)',
+      'updateTask(id, { assigneeId })',
+    ],
     flow: [
-      { kind: 'ui', label: 'Assignee selected', detail: 'Select dropdown triggers assignTask mutation' },
-      { kind: 'cache', label: 'Optimistic write', detail: 'Assignee shown immediately' },
-      { kind: 'transport', label: 'HTTP POST', detail: 'Mutation sent to server' },
-      { kind: 'resolver', label: 'assignTask resolver', detail: 'Sets assigneeId on task row' },
-      { kind: 'store', label: 'tasks[] updated', detail: 'assigneeId foreign key changed' },
-      { kind: 'response', label: 'Task with assignee returned', detail: 'Server resolves assignee field' },
-      { kind: 'ui-update', label: 'Confirmed', detail: 'Dropdown shows final assignee' },
+      {
+        kind: 'ui',
+        label: 'Assignee selected',
+        detail: 'Select dropdown triggers assignTask mutation',
+      },
+      {
+        kind: 'cache',
+        label: 'Optimistic write',
+        detail: 'Assignee shown immediately',
+      },
+      {
+        kind: 'transport',
+        label: 'HTTP POST',
+        detail: 'Mutation sent to server',
+      },
+      {
+        kind: 'resolver',
+        label: 'assignTask resolver',
+        detail: 'Sets assigneeId on task row',
+      },
+      {
+        kind: 'store',
+        label: 'tasks[] updated',
+        detail: 'assigneeId foreign key changed',
+      },
+      {
+        kind: 'response',
+        label: 'Task with assignee returned',
+        detail: 'Server resolves assignee field',
+      },
+      {
+        kind: 'ui-update',
+        label: 'Confirmed',
+        detail: 'Dropdown shows final assignee',
+      },
     ],
   },
   DeleteTask: {
@@ -439,7 +660,11 @@ export const operationExplanations: Record<string, OperationExplanation> = {
     what: 'You clicked the delete button on a task card. The task is removed from the board and the store.',
     how: 'Server splices the task out of tasks[] and publishes a DELETED subscription event. Client update function manually filters the task out of the GetProjectBoard cache query.',
     dataSource: 'server/src/store.ts → tasks[] (splice by id)',
-    resolverPath: ['Mutation.deleteTask', 'deleteTask(id)', 'publishTaskChange(DELETED)'],
+    resolverPath: [
+      'Mutation.deleteTask',
+      'deleteTask(id)',
+      'publishTaskChange(DELETED)',
+    ],
     flow: MUTATION_FLOW,
   },
   DeleteProject: {
@@ -475,14 +700,16 @@ export const operationExplanations: Record<string, OperationExplanation> = {
   StoreSnapshot: {
     conceptId: 'raw-store',
     title: 'Loaded raw store snapshot',
-    summary: 'Fetches the complete in-memory store — users, projects, and tasks arrays as raw rows.',
+    summary:
+      'Fetches the complete in-memory store — users, projects, and tasks arrays as raw rows.',
     what: 'The Data panel requested a snapshot of everything in the server store.',
     how: 'Query.storeSnapshot calls getStoreSnapshot() which returns shallow copies of users[], projects[], and tasks[] arrays. Raw types expose scalar foreign keys instead of resolved relations.',
     dataSource: 'server/src/store.ts → users[], projects[], tasks[]',
     resolverPath: ['Query.storeSnapshot', 'getStoreSnapshot()'],
     flow: QUERY_FLOW,
     fieldNotes: {
-      tasks: 'RawTask — includes projectId and assigneeId as scalar IDs, not nested objects',
+      tasks:
+        'RawTask — includes projectId and assigneeId as scalar IDs, not nested objects',
       projects: 'RawProject — no nested tasks field',
     },
   },
@@ -493,7 +720,11 @@ export const operationExplanations: Record<string, OperationExplanation> = {
     what: 'You edited a task field in the Data panel. The raw row in tasks[] was patched directly.',
     how: 'updateRawTask calls patchRawTask() which finds the task by id and applies the patch fields. Publishes an UPDATED subscription event so the board reflects the change.',
     dataSource: 'server/src/store.ts → tasks[] (find by id, patch fields)',
-    resolverPath: ['Mutation.updateRawTask', 'patchRawTask(id, patch)', 'publishTaskChange(UPDATED)'],
+    resolverPath: [
+      'Mutation.updateRawTask',
+      'patchRawTask(id, patch)',
+      'publishTaskChange(UPDATED)',
+    ],
     flow: MUTATION_FLOW,
   },
   UpdateRawProject: {

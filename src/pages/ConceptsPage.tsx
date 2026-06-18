@@ -17,10 +17,12 @@ export function ConceptsPage() {
         <p className="font-mono text-xs font-semibold uppercase tracking-[0.22em] text-primary">
           Reference
         </p>
-        <h1 className="mt-2 text-3xl font-bold tracking-tight md:text-4xl">GraphQL concepts</h1>
+        <h1 className="mt-2 text-3xl font-bold tracking-tight md:text-4xl">
+          GraphQL concepts
+        </h1>
         <p className="mt-2 max-w-2xl text-muted-foreground">
-          Deep reference for every concept Quereek demonstrates. Matches the Explained and Flow tabs
-          in the inspector.
+          Deep reference for every concept Quereek demonstrates. Matches the
+          Explained and Flow tabs in the inspector.
         </p>
       </div>
       <Separator />
@@ -30,14 +32,18 @@ export function ConceptsPage() {
             <Card className="transition-colors hover:border-primary/40">
               <CardHeader className="p-6">
                 <CardTitle className="text-xl">{concept.title}</CardTitle>
-                <CardDescription className="text-base">{concept.summary}</CardDescription>
+                <CardDescription className="text-base">
+                  {concept.summary}
+                </CardDescription>
               </CardHeader>
               <CardContent className="flex flex-col gap-4 p-6 pt-0">
                 <p className="text-sm leading-relaxed text-muted-foreground">
                   {concept.description}
                 </p>
                 {concept.details ? (
-                  <p className="text-sm leading-relaxed text-foreground/90">{concept.details}</p>
+                  <p className="text-sm leading-relaxed text-foreground/90">
+                    {concept.details}
+                  </p>
                 ) : null}
                 {concept.codeExample ? (
                   <div>

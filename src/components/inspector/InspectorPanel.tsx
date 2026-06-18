@@ -36,12 +36,18 @@ export function InspectorPanel({ embedded = false }: InspectorPanelProps) {
                 GraphQL Inspector
               </h2>
               <p className="font-mono text-[0.7rem] text-muted-foreground">
-                {events.length} operation{events.length === 1 ? '' : 's'} recorded
+                {events.length} operation{events.length === 1 ? '' : 's'}{' '}
+                recorded
               </p>
             </div>
           </div>
         )}
-        <Button variant="outline" size="sm" onClick={clear} disabled={events.length === 0}>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={clear}
+          disabled={events.length === 0}
+        >
           <Trash2Icon className="size-4" />
           Clear
         </Button>
@@ -54,7 +60,8 @@ export function InspectorPanel({ embedded = false }: InspectorPanelProps) {
             </span>
             <p className="text-sm font-medium">No operations yet</p>
             <p className="max-w-[16rem] text-xs text-muted-foreground">
-              Create a project, move a task, or open a board — every GraphQL call will appear here.
+              Create a project, move a task, or open a board — every GraphQL
+              call will appear here.
             </p>
           </div>
         ) : (

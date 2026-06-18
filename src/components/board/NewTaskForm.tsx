@@ -85,11 +85,21 @@ export function NewTaskForm({ projectId, users }: NewTaskFormProps) {
         <CardTitle className="text-base">Add a task</CardTitle>
       </CardHeader>
       <CardContent className="p-5 pt-0">
-        <form className="flex flex-col gap-2" onSubmit={(e) => void handleSubmit(e)}>
+        <form
+          className="flex flex-col gap-2"
+          onSubmit={(e) => void handleSubmit(e)}
+        >
           <Input name="title" placeholder="Task title" required />
-          <Textarea name="description" placeholder="Details (optional)" rows={2} />
+          <Textarea
+            name="description"
+            placeholder="Details (optional)"
+            rows={2}
+          />
           <div className="grid grid-cols-2 gap-2">
-            <Select value={status} onValueChange={(v) => setStatus(v as TaskStatus)}>
+            <Select
+              value={status}
+              onValueChange={(v) => setStatus(v as TaskStatus)}
+            >
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>

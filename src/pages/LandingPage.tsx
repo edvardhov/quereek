@@ -1,4 +1,9 @@
-import { ArrowRightIcon, BookOpenIcon, EyeIcon, MousePointerClickIcon } from 'lucide-react'
+import {
+  ArrowRightIcon,
+  BookOpenIcon,
+  EyeIcon,
+  MousePointerClickIcon,
+} from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 import { BrandMark } from '@/components/brand/BrandMark'
@@ -16,7 +21,8 @@ const steps = [
   {
     icon: MousePointerClickIcon,
     title: 'Act',
-    description: 'Use the Kanban board — create projects, add tasks, move cards, assign people.',
+    description:
+      'Use the Kanban board — create projects, add tasks, move cards, assign people.',
   },
   {
     icon: EyeIcon,
@@ -37,7 +43,11 @@ export function LandingPage() {
     <div className="mx-auto w-full max-w-6xl px-4 pb-20 sm:px-6">
       <section className="relative flex flex-col items-center gap-6 py-14 text-center md:py-24">
         <div className="animate-rise">
-          <BrandMark iconSize={64} wordmarkClassName="text-4xl" className="gap-3" />
+          <BrandMark
+            iconSize={64}
+            wordmarkClassName="text-4xl"
+            className="gap-3"
+          />
         </div>
         <p
           className="animate-rise font-mono text-xs font-semibold uppercase tracking-[0.28em] text-primary"
@@ -49,14 +59,17 @@ export function LandingPage() {
           className="animate-rise max-w-3xl text-balance font-brand text-4xl font-bold leading-[1.05] tracking-tight md:text-6xl"
           style={{ animationDelay: '0.1s' }}
         >
-          See <span className="text-gradient-brand">every GraphQL operation</span> as you work
+          See{' '}
+          <span className="text-gradient-brand">every GraphQL operation</span>{' '}
+          as you work
         </h1>
         <p
           className="animate-rise mx-auto max-w-2xl text-pretty text-lg text-muted-foreground"
           style={{ animationDelay: '0.15s' }}
         >
-          Quereek is a task manager built to teach Apollo Server, Apollo Client, and core GraphQL
-          concepts. Nothing happens silently — every click shows you what was sent and why.
+          Quereek is a task manager built to teach Apollo Server, Apollo Client,
+          and core GraphQL concepts. Nothing happens silently — every click
+          shows you what was sent and why.
         </p>
         <div
           className="animate-rise flex flex-wrap justify-center gap-3"
@@ -76,7 +89,9 @@ export function LandingPage() {
 
       <section className="flex flex-col gap-6">
         <div className="flex items-end justify-between gap-4">
-          <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">What you&apos;ll learn</h2>
+          <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">
+            What you&apos;ll learn
+          </h2>
           <span className="font-mono text-xs text-muted-foreground">
             {concepts.length} concepts
           </span>
@@ -91,7 +106,9 @@ export function LandingPage() {
                 <CardTitle className="text-base transition-colors group-hover:text-primary">
                   {concept.title}
                 </CardTitle>
-                <CardDescription className="leading-relaxed">{concept.summary}</CardDescription>
+                <CardDescription className="leading-relaxed">
+                  {concept.summary}
+                </CardDescription>
               </CardHeader>
               <CardContent className="p-5 pt-0">
                 <Link
@@ -108,7 +125,9 @@ export function LandingPage() {
       </section>
 
       <section className="mt-16 flex flex-col gap-6">
-        <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">How it works</h2>
+        <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">
+          How it works
+        </h2>
         <div className="grid gap-4 md:grid-cols-3">
           {steps.map((step, index) => (
             <Card key={step.title} className="relative overflow-hidden p-5">

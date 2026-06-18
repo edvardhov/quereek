@@ -15,7 +15,11 @@ export function ThemeToggle() {
       aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
       title={isDark ? 'Light mode' : 'Dark mode'}
     >
-      {isDark ? <SunIcon className="size-4" /> : <MoonIcon className="size-4" />}
+      {isDark ? (
+        <SunIcon className="size-4" />
+      ) : (
+        <MoonIcon className="size-4" />
+      )}
     </Button>
   )
 }

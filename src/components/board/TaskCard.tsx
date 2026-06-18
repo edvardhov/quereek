@@ -41,27 +41,28 @@ export function TaskCard({ task, projectId, users }: TaskCardProps) {
     }),
   })
   const [assignTask] = useMutation(ASSIGN_TASK)
-  const [deleteTask] = useMutation<{ deleteTask: { id: string; project: { id: string } } }>(
-    DELETE_TASK,
-    {
-      update(cache, { data }) {
-        const deletedId = data?.deleteTask.id
-        if (!deletedId) return
-        cache.updateQuery<{ project: { tasks: Task[] } | null }>(
-          { query: GET_PROJECT_BOARD, variables: { projectId } },
-          (existing) => {
-            if (!existing?.project) return existing
-            return {
-              project: {
-                ...existing.project,
-                tasks: existing.project.tasks.filter((item) => item.id !== deletedId),
-              },
-            }
-          },
-        )
-      },
+  const [deleteTask] = useMutation<{
+    deleteTask: { id: string; project: { id: string } }
+  }>(DELETE_TASK, {
+    update(cache, { data }) {
+      const deletedId = data?.deleteTask.id
+      if (!deletedId) return
+      cache.updateQuery<{ project: { tasks: Task[] } | null }>(
+        { query: GET_PROJECT_BOARD, variables: { projectId } },
+        (existing) => {
+          if (!existing?.project) return existing
+          return {
+            project: {
+              ...existing.project,
+              tasks: existing.project.tasks.filter(
+                (item) => item.id !== deletedId,
+              ),
+            },
+          }
+        },
+      )
     },
-  )
+  })
 
   const currentIndex = STATUS_ORDER.indexOf(task.status)
 
@@ -129,7 +130,9 @@ export function TaskCard({ task, projectId, users }: TaskCardProps) {
       </CardHeader>
       <CardContent className="flex flex-col gap-3 px-4 pl-5 pt-0">
         {task.description ? (
-          <p className="text-xs leading-relaxed text-muted-foreground">{task.description}</p>
+          <p className="text-xs leading-relaxed text-muted-foreground">
+            {task.description}
+          </p>
         ) : null}
         <div className="flex flex-col gap-1">
           <span className="font-mono text-[0.7rem] uppercase tracking-wider text-muted-foreground">
@@ -137,7 +140,9 @@ export function TaskCard({ task, projectId, users }: TaskCardProps) {
           </span>
           <Select
             value={task.assignee?.id ?? 'none'}
-            onValueChange={(value) => void handleAssign(value === 'none' ? '' : value)}
+            onValueChange={(value) =>
+              void handleAssign(value === 'none' ? '' : value)
+            }
           >
             <SelectTrigger className="h-8 text-xs">
               <SelectValue placeholder="Unassigned" />

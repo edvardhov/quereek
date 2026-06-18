@@ -17,14 +17,24 @@ export function CodeBlock({ code, language, className }: CodeBlockProps) {
 
   return (
     <Highlight theme={prismTheme} code={code.trim()} language={prismLanguage}>
-      {({ className: preClass, style, tokens, getLineProps, getTokenProps }) => (
+      {({
+        className: preClass,
+        style,
+        tokens,
+        getLineProps,
+        getTokenProps,
+      }) => (
         <pre
           className={cn(
             'overflow-x-auto rounded-md border border-border/60 bg-muted/40 p-3 font-mono text-xs leading-relaxed',
             preClass,
             className,
           )}
-          style={{ ...style, background: undefined, backgroundColor: undefined }}
+          style={{
+            ...style,
+            background: undefined,
+            backgroundColor: undefined,
+          }}
         >
           {tokens.map((line, i) => (
             <div key={i} {...getLineProps({ line })}>
