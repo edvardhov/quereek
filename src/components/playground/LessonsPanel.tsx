@@ -36,10 +36,19 @@ export function LessonsPanel() {
               <p className="font-mono text-[0.65rem] uppercase tracking-wider text-primary">
                 Active lesson
               </p>
-              <h2 className="font-display text-sm font-semibold">{activeLesson.title}</h2>
-              <p className="mt-0.5 text-xs text-muted-foreground">{activeLesson.summary}</p>
+              <h2 className="font-display text-sm font-semibold">
+                {activeLesson.title}
+              </h2>
+              <p className="mt-0.5 text-xs text-muted-foreground">
+                {activeLesson.summary}
+              </p>
             </div>
-            <Button variant="ghost" size="sm" className="shrink-0 text-xs" onClick={clearActiveLesson}>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="shrink-0 text-xs"
+              onClick={clearActiveLesson}
+            >
               Back
             </Button>
           </div>
@@ -54,7 +63,11 @@ export function LessonsPanel() {
                 You completed all steps for &ldquo;{activeLesson.title}&rdquo;.
               </p>
               <div className="flex gap-2">
-                <Button size="sm" variant="outline" onClick={() => resetLesson(activeLesson.id)}>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => resetLesson(activeLesson.id)}
+                >
                   <RotateCcwIcon className="size-3.5" />
                   Retry
                 </Button>
@@ -75,22 +88,30 @@ export function LessonsPanel() {
                 <p className="font-mono text-[0.65rem] uppercase tracking-wider text-primary">
                   Step {currentStepIndex + 1} of {activeLesson.steps.length}
                 </p>
-                <p className="mt-2 text-sm font-medium leading-relaxed">{currentStep.instruction}</p>
+                <p className="mt-2 text-sm font-medium leading-relaxed">
+                  {currentStep.instruction}
+                </p>
                 {currentStep.hint ? (
-                  <p className="mt-2 text-xs text-muted-foreground">{currentStep.hint}</p>
+                  <p className="mt-2 text-xs text-muted-foreground">
+                    {currentStep.hint}
+                  </p>
                 ) : null}
                 {currentStep.manual ? (
                   <Button
                     size="sm"
                     className="mt-3 w-full"
-                    onClick={() => markStepComplete(activeLesson.id, currentStep.id)}
+                    onClick={() =>
+                      markStepComplete(activeLesson.id, currentStep.id)
+                    }
                   >
                     Mark step complete
                   </Button>
                 ) : currentStep.matcher ? (
                   <p className="mt-3 font-mono text-[0.65rem] text-muted-foreground">
                     Waiting for:{' '}
-                    <span className="text-foreground">{currentStep.matcher.operationName}</span>
+                    <span className="text-foreground">
+                      {currentStep.matcher.operationName}
+                    </span>
                   </p>
                 ) : null}
               </div>
@@ -104,7 +125,8 @@ export function LessonsPanel() {
                       key={step.id}
                       className={cn(
                         'flex items-start gap-2 rounded-lg border px-3 py-2 text-xs',
-                        done && 'border-primary/20 bg-primary/5 text-muted-foreground',
+                        done &&
+                          'border-primary/20 bg-primary/5 text-muted-foreground',
                         current && !done && 'border-primary/40 bg-accent/50',
                         !done && !current && 'border-border/60 opacity-60',
                       )}
@@ -116,7 +138,9 @@ export function LessonsPanel() {
                       ) : (
                         <CircleIcon className="mt-0.5 size-4 shrink-0 text-muted-foreground" />
                       )}
-                      <span className={cn(done && 'line-through')}>{step.instruction}</span>
+                      <span className={cn(done && 'line-through')}>
+                        {step.instruction}
+                      </span>
                     </li>
                   )
                 })}
@@ -133,8 +157,8 @@ export function LessonsPanel() {
       <div className="shrink-0 border-b border-border/60 p-4">
         <h2 className="font-display text-sm font-semibold">Guided lessons</h2>
         <p className="mt-0.5 text-xs text-muted-foreground">
-          Step-by-step challenges. Complete actions on the board and the inspector validates each
-          step automatically.
+          Step-by-step challenges. Complete actions on the board and the
+          inspector validates each step automatically.
         </p>
       </div>
       <ScrollArea className="min-h-0 flex-1 p-4">
@@ -156,7 +180,9 @@ export function LessonsPanel() {
                   <div className="flex items-start justify-between gap-2">
                     <div>
                       <p className="text-sm font-medium">{lesson.title}</p>
-                      <p className="mt-0.5 text-xs text-muted-foreground">{lesson.summary}</p>
+                      <p className="mt-0.5 text-xs text-muted-foreground">
+                        {lesson.summary}
+                      </p>
                     </div>
                     {status === 'complete' ? (
                       <CheckCircle2Icon className="size-4 shrink-0 text-primary" />

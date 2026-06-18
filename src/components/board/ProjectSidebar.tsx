@@ -88,7 +88,9 @@ export function ProjectSidebar({
       if (createdId) onSelectProject(createdId)
       form.reset()
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : 'Failed to create project')
+      toast.error(
+        err instanceof Error ? err.message : 'Failed to create project',
+      )
     }
   }
 
@@ -97,7 +99,9 @@ export function ProjectSidebar({
       await deleteProject({ variables: { id: projectId } })
       toast.success('Project deleted')
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : 'Failed to delete project')
+      toast.error(
+        err instanceof Error ? err.message : 'Failed to delete project',
+      )
     }
   }
 
@@ -149,65 +153,69 @@ export function ProjectSidebar({
 
   const body = (
     <>
-        <ul className="flex flex-col gap-1.5">
-          {(data?.projects ?? []).map((project) => {
-            const active = project.id === selectedProjectId
-            return (
-              <li key={project.id} className="group flex items-stretch gap-1">
-                <button
-                  type="button"
+      <ul className="flex flex-col gap-1.5">
+        {(data?.projects ?? []).map((project) => {
+          const active = project.id === selectedProjectId
+          return (
+            <li key={project.id} className="group flex items-stretch gap-1">
+              <button
+                type="button"
+                className={cn(
+                  'relative flex-1 overflow-hidden rounded-xl border px-3 py-2.5 text-left transition-all',
+                  'before:absolute before:inset-y-0 before:left-0 before:w-1 before:rounded-r-full before:transition-colors before:content-[""]',
+                  active
+                    ? 'border-primary/40 bg-primary/10 before:bg-primary'
+                    : 'border-transparent bg-muted/40 hover:bg-muted before:bg-transparent',
+                )}
+                onClick={() => onSelectProject(project.id)}
+              >
+                <span
                   className={cn(
-                    'relative flex-1 overflow-hidden rounded-xl border px-3 py-2.5 text-left transition-all',
-                    'before:absolute before:inset-y-0 before:left-0 before:w-1 before:rounded-r-full before:transition-colors before:content-[""]',
-                    active
-                      ? 'border-primary/40 bg-primary/10 before:bg-primary'
-                      : 'border-transparent bg-muted/40 hover:bg-muted before:bg-transparent',
+                    'block truncate pl-1.5 text-sm font-medium',
+                    active && 'text-foreground',
                   )}
-                  onClick={() => onSelectProject(project.id)}
                 >
-                  <span
-                    className={cn(
-                      'block truncate pl-1.5 text-sm font-medium',
-                      active && 'text-foreground',
-                    )}
-                  >
-                    {project.name}
+                  {project.name}
+                </span>
+                {project.description ? (
+                  <span className="mt-0.5 block truncate pl-1.5 text-xs text-muted-foreground">
+                    {project.description}
                   </span>
-                  {project.description ? (
-                    <span className="mt-0.5 block truncate pl-1.5 text-xs text-muted-foreground">
-                      {project.description}
-                    </span>
-                  ) : null}
-                </button>
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="icon"
-                  className="shrink-0 self-center text-muted-foreground opacity-0 transition-opacity hover:text-destructive group-hover:opacity-100"
-                  aria-label={`Delete ${project.name}`}
-                  onClick={() => void handleDelete(project.id)}
-                >
-                  <Trash2Icon className="size-4" />
-                </Button>
-              </li>
-            )
-          })}
-        </ul>
+                ) : null}
+              </button>
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                className="shrink-0 self-center text-muted-foreground opacity-0 transition-opacity hover:text-destructive group-hover:opacity-100"
+                aria-label={`Delete ${project.name}`}
+                onClick={() => void handleDelete(project.id)}
+              >
+                <Trash2Icon className="size-4" />
+              </Button>
+            </li>
+          )
+        })}
+      </ul>
 
-        <form
-          data-tour="new-project"
-          className="flex flex-col gap-2 border-t pt-4"
-          onSubmit={(e) => void handleCreate(e)}
-        >
-          <p className="font-mono text-[0.7rem] uppercase tracking-wider text-muted-foreground">
-            New project
-          </p>
-          <Input name="name" placeholder="Project name" required />
-          <Textarea name="description" placeholder="Description (optional)" rows={2} />
-          <Button type="submit" disabled={creating}>
-            {creating ? 'Creating…' : 'Create project'}
-          </Button>
-        </form>
+      <form
+        data-tour="new-project"
+        className="flex flex-col gap-2 border-t pt-4"
+        onSubmit={(e) => void handleCreate(e)}
+      >
+        <p className="font-mono text-[0.7rem] uppercase tracking-wider text-muted-foreground">
+          New project
+        </p>
+        <Input name="name" placeholder="Project name" required />
+        <Textarea
+          name="description"
+          placeholder="Description (optional)"
+          rows={2}
+        />
+        <Button type="submit" disabled={creating}>
+          {creating ? 'Creating…' : 'Create project'}
+        </Button>
+      </form>
     </>
   )
 

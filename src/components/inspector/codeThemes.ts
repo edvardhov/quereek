@@ -11,16 +11,40 @@ export const quereekLight: PrismTheme = {
       types: ['comment', 'prolog', 'doctype', 'cdata'],
       style: { color: 'var(--muted-foreground)', fontStyle: 'italic' },
     },
-    { types: ['punctuation', 'operator'], style: { color: 'var(--muted-foreground)' } },
     {
-      types: ['property', 'tag', 'boolean', 'number', 'constant', 'symbol', 'deleted'],
+      types: ['punctuation', 'operator'],
+      style: { color: 'var(--muted-foreground)' },
+    },
+    {
+      types: [
+        'property',
+        'tag',
+        'boolean',
+        'number',
+        'constant',
+        'symbol',
+        'deleted',
+      ],
       style: { color: 'var(--status-done)' },
     },
     {
-      types: ['selector', 'attr-name', 'string', 'char', 'builtin', 'inserted', 'regex'],
-      style: { color: 'color-mix(in oklch, var(--primary) 75%, var(--foreground))' },
+      types: [
+        'selector',
+        'attr-name',
+        'string',
+        'char',
+        'builtin',
+        'inserted',
+        'regex',
+      ],
+      style: {
+        color: 'color-mix(in oklch, var(--primary) 75%, var(--foreground))',
+      },
     },
-    { types: ['atrule', 'attr-value', 'keyword'], style: { color: 'var(--primary)' } },
+    {
+      types: ['atrule', 'attr-value', 'keyword'],
+      style: { color: 'var(--primary)' },
+    },
     {
       types: ['function', 'class-name', 'important', 'variable'],
       style: { color: 'var(--foreground)' },
@@ -40,16 +64,40 @@ export const quereekDark: PrismTheme = {
       types: ['comment', 'prolog', 'doctype', 'cdata'],
       style: { color: 'var(--muted-foreground)', fontStyle: 'italic' },
     },
-    { types: ['punctuation', 'operator'], style: { color: 'var(--muted-foreground)' } },
     {
-      types: ['property', 'tag', 'boolean', 'number', 'constant', 'symbol', 'deleted'],
+      types: ['punctuation', 'operator'],
+      style: { color: 'var(--muted-foreground)' },
+    },
+    {
+      types: [
+        'property',
+        'tag',
+        'boolean',
+        'number',
+        'constant',
+        'symbol',
+        'deleted',
+      ],
       style: { color: 'var(--status-done)' },
     },
     {
-      types: ['selector', 'attr-name', 'string', 'char', 'builtin', 'inserted', 'regex'],
-      style: { color: 'color-mix(in oklch, var(--primary) 70%, var(--foreground))' },
+      types: [
+        'selector',
+        'attr-name',
+        'string',
+        'char',
+        'builtin',
+        'inserted',
+        'regex',
+      ],
+      style: {
+        color: 'color-mix(in oklch, var(--primary) 70%, var(--foreground))',
+      },
     },
-    { types: ['atrule', 'attr-value', 'keyword'], style: { color: 'var(--primary)' } },
+    {
+      types: ['atrule', 'attr-value', 'keyword'],
+      style: { color: 'var(--primary)' },
+    },
     {
       types: ['function', 'class-name', 'important', 'variable'],
       style: { color: 'var(--foreground)' },

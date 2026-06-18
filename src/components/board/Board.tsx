@@ -27,47 +27,43 @@ export function Board({ projectId }: BoardProps) {
     users: User[]
   }>(GET_PROJECT_BOARD, { variables: { projectId } })
 
-  useSubscription<{ taskChanged: { action: string; taskId: string | null; task: Task | null } }>(
-    TASK_CHANGED,
-    {
-      variables: { projectId },
-      onData: ({ client, data: subscriptionData }) => {
-        const event = subscriptionData.data?.taskChanged
-        if (!event) return
+  useSubscription<{
+    taskChanged: { action: string; taskId: string | null; task: Task | null }
+  }>(TASK_CHANGED, {
+    variables: { projectId },
+    onData: ({ client, data: subscriptionData }) => {
+      const event = subscriptionData.data?.taskChanged
+      if (!event) return
 
-        client.cache.updateQuery<{
-          project: (Project & { tasks: Task[] }) | null
-          users: User[]
-        }>(
-          { query: GET_PROJECT_BOARD, variables: { projectId } },
-          (existing) => {
-            if (!existing?.project) return existing
-            const tasks = [...existing.project.tasks]
+      client.cache.updateQuery<{
+        project: (Project & { tasks: Task[] }) | null
+        users: User[]
+      }>({ query: GET_PROJECT_BOARD, variables: { projectId } }, (existing) => {
+        if (!existing?.project) return existing
+        const tasks = [...existing.project.tasks]
 
-            if (event.action === 'CREATED' && event.task) {
-              if (!tasks.some((task) => task.id === event.task!.id)) {
-                tasks.push(event.task)
-              }
-            }
-            if (event.action === 'UPDATED' && event.task) {
-              const index = tasks.findIndex((task) => task.id === event.task!.id)
-              if (index >= 0) tasks[index] = event.task
-              else tasks.push(event.task)
-            }
-            if (event.action === 'DELETED' && event.taskId) {
-              const index = tasks.findIndex((task) => task.id === event.taskId)
-              if (index >= 0) tasks.splice(index, 1)
-            }
+        if (event.action === 'CREATED' && event.task) {
+          if (!tasks.some((task) => task.id === event.task!.id)) {
+            tasks.push(event.task)
+          }
+        }
+        if (event.action === 'UPDATED' && event.task) {
+          const index = tasks.findIndex((task) => task.id === event.task!.id)
+          if (index >= 0) tasks[index] = event.task
+          else tasks.push(event.task)
+        }
+        if (event.action === 'DELETED' && event.taskId) {
+          const index = tasks.findIndex((task) => task.id === event.taskId)
+          if (index >= 0) tasks.splice(index, 1)
+        }
 
-            return {
-              ...existing,
-              project: { ...existing.project, tasks },
-            }
-          },
-        )
-      },
+        return {
+          ...existing,
+          project: { ...existing.project, tasks },
+        }
+      })
     },
-  )
+  })
 
   if (loading) {
     return (
@@ -102,10 +98,13 @@ export function Board({ projectId }: BoardProps) {
     )
   }
 
-  const tasksByStatus = STATUS_ORDER.reduce<Record<string, Task[]>>((acc, status) => {
-    acc[status] = project.tasks.filter((task) => task.status === status)
-    return acc
-  }, {})
+  const tasksByStatus = STATUS_ORDER.reduce<Record<string, Task[]>>(
+    (acc, status) => {
+      acc[status] = project.tasks.filter((task) => task.status === status)
+      return acc
+    },
+    {},
+  )
 
   return (
     <div className="flex flex-col gap-4">
@@ -114,7 +113,9 @@ export function Board({ projectId }: BoardProps) {
           <div className="min-w-0">
             <CardTitle className="text-lg">{project.name}</CardTitle>
             {project.description ? (
-              <p className="mt-1 text-sm text-muted-foreground">{project.description}</p>
+              <p className="mt-1 text-sm text-muted-foreground">
+                {project.description}
+              </p>
             ) : null}
           </div>
           <Badge variant="secondary" className="shrink-0 font-mono">
@@ -137,9 +138,14 @@ export function Board({ projectId }: BoardProps) {
               <div className="flex items-center justify-between px-1">
                 <div className="flex items-center gap-2">
                   <span className={cn('size-2.5 rounded-full', styles.dot)} />
-                  <h3 className="text-sm font-semibold">{STATUS_LABELS[status]}</h3>
+                  <h3 className="text-sm font-semibold">
+                    {STATUS_LABELS[status]}
+                  </h3>
                 </div>
-                <Badge variant="outline" className={cn('font-mono', styles.badge)}>
+                <Badge
+                  variant="outline"
+                  className={cn('font-mono', styles.badge)}
+                >
                   {tasks.length}
                 </Badge>
               </div>

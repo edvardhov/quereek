@@ -1,0 +1,7 @@
+dist
+dist-ssr
+node_modules
+package-lock.json
+src/__generated__
+.agents/skills
+CHANGELOG.md

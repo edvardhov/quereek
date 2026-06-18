@@ -39,7 +39,9 @@ app.use(
 )
 
 httpServer.listen(PORT, () => {
-  console.log(`Quereek GraphQL server ready at http://localhost:${PORT}/graphql`)
+  console.log(
+    `Quereek GraphQL server ready at http://localhost:${PORT}/graphql`,
+  )
 })
 
 process.on('SIGTERM', async () => {

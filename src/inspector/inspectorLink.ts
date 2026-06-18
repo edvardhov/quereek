@@ -8,7 +8,10 @@ export const inspectorLink = new ApolloLink((operation, forward) => {
   const startedAt = Date.now()
   const ast = getOperationAST(operation.query)
   const name = ast?.name?.value ?? 'Anonymous'
-  const type = (ast?.operation ?? 'query') as 'query' | 'mutation' | 'subscription'
+  const type = (ast?.operation ?? 'query') as
+    | 'query'
+    | 'mutation'
+    | 'subscription'
   const document = print(operation.query)
   const variables = (operation.variables ?? {}) as Record<string, unknown>
 

@@ -29,13 +29,15 @@ export const lessons: Lesson[] = [
     steps: [
       {
         id: 'select-project',
-        instruction: 'Select a project from the sidebar to load its Kanban board.',
+        instruction:
+          'Select a project from the sidebar to load its Kanban board.',
         hint: 'This fires the GetProjectBoard query. Watch the Inspector tab.',
         matcher: { operationName: 'GetProjectBoard' },
       },
       {
         id: 'see-response',
-        instruction: 'Open the Inspector tab and click the latest GetProjectBoard event. Read the Explained tab.',
+        instruction:
+          'Open the Inspector tab and click the latest GetProjectBoard event. Read the Explained tab.',
         manual: true,
       },
     ],
@@ -54,7 +56,8 @@ export const lessons: Lesson[] = [
       },
       {
         id: 'inspect',
-        instruction: 'In the Inspector, open the CreateTask event and check the Flow tab.',
+        instruction:
+          'In the Inspector, open the CreateTask event and check the Flow tab.',
         manual: true,
       },
     ],
@@ -67,13 +70,15 @@ export const lessons: Lesson[] = [
     steps: [
       {
         id: 'move',
-        instruction: 'Click a move button on a task card to change its status column.',
+        instruction:
+          'Click a move button on a task card to change its status column.',
         hint: 'The card moves instantly before the server responds.',
         matcher: { operationName: 'MoveTask' },
       },
       {
         id: 'flow',
-        instruction: 'Open the MoveTask event in the Inspector. Compare Explained vs Flow tabs.',
+        instruction:
+          'Open the MoveTask event in the Inspector. Compare Explained vs Flow tabs.',
         manual: true,
       },
     ],
@@ -91,13 +96,15 @@ export const lessons: Lesson[] = [
       },
       {
         id: 'edit-task',
-        instruction: 'Edit a task title in the Data tab and click Save changes.',
+        instruction:
+          'Edit a task title in the Data tab and click Save changes.',
         hint: 'This uses updateRawTask — a direct patch to tasks[] in the store.',
         matcher: { operationName: 'UpdateRawTask' },
       },
       {
         id: 'see-board',
-        instruction: 'Check the board — it should reflect your raw edit via subscription/cache.',
+        instruction:
+          'Check the board — it should reflect your raw edit via subscription/cache.',
         manual: true,
       },
     ],
@@ -110,13 +117,15 @@ export const lessons: Lesson[] = [
     steps: [
       {
         id: 'subscribe',
-        instruction: 'With a project board open, any task change triggers TaskChanged subscription events.',
+        instruction:
+          'With a project board open, any task change triggers TaskChanged subscription events.',
         hint: 'Move or create a task while watching the Inspector.',
         matcher: { operationName: 'TaskChanged' },
       },
       {
         id: 'inspect-sub',
-        instruction: 'Open a TaskChanged event. Read how PubSub pushes events over WebSocket.',
+        instruction:
+          'Open a TaskChanged event. Read how PubSub pushes events over WebSocket.',
         manual: true,
       },
     ],
@@ -136,10 +145,9 @@ export const lessons: Lesson[] = [
   },
 ]
 
-export const lessonMap = Object.fromEntries(lessons.map((l) => [l.id, l])) as Record<
-  string,
-  Lesson
->
+export const lessonMap = Object.fromEntries(
+  lessons.map((l) => [l.id, l]),
+) as Record<string, Lesson>
 
 export function matchStep(
   matcher: StepMatcher,

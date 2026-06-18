@@ -36,7 +36,7 @@ export function useLessons() {
   const [progress, setProgress] = useState<LessonProgress>(loadProgress)
 
   const activeLesson = progress.activeLessonId
-    ? lessons.find((l) => l.id === progress.activeLessonId) ?? null
+    ? (lessons.find((l) => l.id === progress.activeLessonId) ?? null)
     : null
 
   const completedForActive = activeLesson
@@ -48,10 +48,14 @@ export function useLessons() {
     : -1
 
   const currentStep =
-    activeLesson && currentStepIndex >= 0 ? activeLesson.steps[currentStepIndex] : null
+    activeLesson && currentStepIndex >= 0
+      ? activeLesson.steps[currentStepIndex]
+      : null
 
   const isLessonComplete =
-    activeLesson !== null && currentStepIndex === -1 && completedForActive.length > 0
+    activeLesson !== null &&
+    currentStepIndex === -1 &&
+    completedForActive.length > 0
 
   const startLesson = useCallback((lessonId: string) => {
     setProgress((prev) => {
@@ -134,7 +138,8 @@ export function useLessons() {
 
   const getLessonStatus = (lesson: Lesson): 'complete' | 'active' | 'idle' => {
     const completed = progress.completedSteps[lesson.id] ?? []
-    if (completed.length === lesson.steps.length && completed.length > 0) return 'complete'
+    if (completed.length === lesson.steps.length && completed.length > 0)
+      return 'complete'
     if (progress.activeLessonId === lesson.id) return 'active'
     return 'idle'
   }

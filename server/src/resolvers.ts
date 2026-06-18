@@ -58,16 +58,16 @@ export const resolvers = {
     project: (_: unknown, { id }: { id: string }) => getProjectById(id) ?? null,
     tasks: (
       _: unknown,
-      {
-        projectId,
-        status,
-      }: { projectId?: string; status?: TaskStatus },
+      { projectId, status }: { projectId?: string; status?: TaskStatus },
     ) => getTasks({ projectId, status }),
     storeSnapshot: () => getStoreSnapshot(),
   },
 
   Mutation: {
-    createProject: (_: unknown, { input }: { input: { name: string; description?: string | null } }) => {
+    createProject: (
+      _: unknown,
+      { input }: { input: { name: string; description?: string | null } },
+    ) => {
       try {
         return createProject(input)
       } catch (error) {
@@ -122,7 +122,10 @@ export const resolvers = {
       }
     },
 
-    moveTask: async (_: unknown, { id, status }: { id: string; status: TaskStatus }) => {
+    moveTask: async (
+      _: unknown,
+      { id, status }: { id: string; status: TaskStatus },
+    ) => {
       try {
         const task = moveTask(id, status)
         await publishTaskChange('UPDATED', task.projectId, task)
@@ -230,9 +233,11 @@ export const resolvers = {
       subscribe: withFilter(
         () => pubsub.asyncIterableIterator([TASK_CHANGED]),
         (
-          payload: {
-            taskChanged: { projectId: string }
-          } | undefined,
+          payload:
+            | {
+                taskChanged: { projectId: string }
+              }
+            | undefined,
           variables: { projectId: string } | undefined,
         ) => payload?.taskChanged.projectId === variables?.projectId,
       ),

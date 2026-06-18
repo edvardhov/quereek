@@ -20,7 +20,10 @@ export function NavBar() {
           aria-label="Quereek home"
           className="transition-transform hover:scale-[1.02]"
         >
-          <BrandMark iconSize={40} wordmarkClassName="text-2xl sm:text-[1.6rem]" />
+          <BrandMark
+            iconSize={40}
+            wordmarkClassName="text-2xl sm:text-[1.6rem]"
+          />
         </NavLink>
         <nav className="flex items-center gap-1 rounded-full border border-border/60 bg-card/60 p-1 shadow-sm">
           {links.map((link) => (

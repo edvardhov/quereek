@@ -1,12 +1,7 @@
 import { useRef, useState, type ReactNode, type RefObject } from 'react'
 import type { PanelImperativeHandle, PanelSize } from 'react-resizable-panels'
 import { useDefaultLayout } from 'react-resizable-panels'
-import {
-  Maximize2Icon,
-  Minimize2Icon,
-  MinusIcon,
-  PlusIcon,
-} from 'lucide-react'
+import { Maximize2Icon, Minimize2Icon, MinusIcon, PlusIcon } from 'lucide-react'
 
 import { RightDock } from '@/components/playground/RightDock'
 import { ProjectSidebar } from '@/components/board/ProjectSidebar'
@@ -238,7 +233,12 @@ function PanelShell({
           </PanelIconButton>
         </div>
       </div>
-      <div className={cn('min-h-0 flex-1 overflow-auto', !noPadding && 'overflow-x-hidden')}>
+      <div
+        className={cn(
+          'min-h-0 flex-1 overflow-auto',
+          !noPadding && 'overflow-x-hidden',
+        )}
+      >
         {children}
       </div>
     </div>
@@ -252,7 +252,12 @@ interface PanelIconButtonProps {
   children: ReactNode
 }
 
-function PanelIconButton({ label, onClick, disabled, children }: PanelIconButtonProps) {
+function PanelIconButton({
+  label,
+  onClick,
+  disabled,
+  children,
+}: PanelIconButtonProps) {
   return (
     <button
       type="button"

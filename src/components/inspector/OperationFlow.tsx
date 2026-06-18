@@ -33,7 +33,9 @@ export function OperationFlow({
           <p className="font-mono text-[0.65rem] uppercase tracking-wider text-primary">
             Data source
           </p>
-          <p className="mt-0.5 font-mono text-xs text-foreground">{dataSource}</p>
+          <p className="mt-0.5 font-mono text-xs text-foreground">
+            {dataSource}
+          </p>
         </div>
       ) : null}
 
@@ -41,7 +43,10 @@ export function OperationFlow({
         {steps.map((step, index) => {
           const isLast = index === steps.length - 1
           return (
-            <li key={`${step.kind}-${index}`} className="relative flex gap-3 pb-4 last:pb-0">
+            <li
+              key={`${step.kind}-${index}`}
+              className="relative flex gap-3 pb-4 last:pb-0"
+            >
               {!isLast ? (
                 <span
                   aria-hidden
@@ -57,7 +62,12 @@ export function OperationFlow({
                 {STEP_ICONS[step.kind]}
               </span>
               <div className="min-w-0 flex-1 pt-0.5">
-                <p className={cn('text-sm font-medium leading-tight', compact && 'text-xs')}>
+                <p
+                  className={cn(
+                    'text-sm font-medium leading-tight',
+                    compact && 'text-xs',
+                  )}
+                >
                   {step.label}
                 </p>
                 <p
@@ -85,7 +95,9 @@ export function OperationFlow({
                 key={index}
                 className="flex items-start gap-2 font-mono text-[0.7rem] text-foreground"
               >
-                <span className="mt-px shrink-0 text-muted-foreground">{index + 1}.</span>
+                <span className="mt-px shrink-0 text-muted-foreground">
+                  {index + 1}.
+                </span>
                 <span>{step}</span>
               </li>
             ))}

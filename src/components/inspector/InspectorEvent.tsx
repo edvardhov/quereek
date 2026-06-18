@@ -80,20 +80,28 @@ export function InspectorEvent({ event }: InspectorEventProps) {
               </p>
               <p className="mt-1 font-mono text-xs">{explanation.dataSource}</p>
             </div>
-            {explanation.fieldNotes && Object.keys(explanation.fieldNotes).length > 0 ? (
+            {explanation.fieldNotes &&
+            Object.keys(explanation.fieldNotes).length > 0 ? (
               <div className="rounded-md border bg-muted/30 p-3">
                 <p className="font-mono text-[0.65rem] uppercase tracking-wider text-muted-foreground">
                   Field notes
                 </p>
                 <dl className="mt-2 flex flex-col gap-1.5">
-                  {Object.entries(explanation.fieldNotes).map(([field, note]) => (
-                    <div key={field} className="flex flex-col gap-0.5 sm:flex-row sm:gap-2">
-                      <dt className="shrink-0 font-mono text-xs font-medium text-foreground">
-                        {field}
-                      </dt>
-                      <dd className="text-xs text-muted-foreground">{note}</dd>
-                    </div>
-                  ))}
+                  {Object.entries(explanation.fieldNotes).map(
+                    ([field, note]) => (
+                      <div
+                        key={field}
+                        className="flex flex-col gap-0.5 sm:flex-row sm:gap-2"
+                      >
+                        <dt className="shrink-0 font-mono text-xs font-medium text-foreground">
+                          {field}
+                        </dt>
+                        <dd className="text-xs text-muted-foreground">
+                          {note}
+                        </dd>
+                      </div>
+                    ),
+                  )}
                 </dl>
               </div>
             ) : null}
@@ -128,7 +136,9 @@ export function InspectorEvent({ event }: InspectorEventProps) {
                 language="json"
               />
             ) : (
-              <p className="text-sm text-muted-foreground">Waiting for response…</p>
+              <p className="text-sm text-muted-foreground">
+                Waiting for response…
+              </p>
             )}
           </TabsContent>
         </Tabs>

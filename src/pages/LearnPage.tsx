@@ -1,5 +1,10 @@
 import { useEffect, useState } from 'react'
-import { ChevronDownIcon, CompassIcon, PanelRightIcon, SparklesIcon } from 'lucide-react'
+import {
+  ChevronDownIcon,
+  CompassIcon,
+  PanelRightIcon,
+  SparklesIcon,
+} from 'lucide-react'
 
 import { Board } from '@/components/board/Board'
 import { ProjectSidebar } from '@/components/board/ProjectSidebar'
@@ -19,8 +24,8 @@ import {
 } from '@/components/ui/sheet'
 
 export function LearnPage() {
-  const [selectedProjectId, setSelectedProjectId] = useState<string | null>(() =>
-    localStorage.getItem('quereek:selectedProjectId'),
+  const [selectedProjectId, setSelectedProjectId] = useState<string | null>(
+    () => localStorage.getItem('quereek:selectedProjectId'),
   )
   const isWide = useMediaQuery('(min-width: 1280px)')
   const [aboutOpen, setAboutOpen] = useState(
@@ -58,7 +63,9 @@ export function LearnPage() {
               <SparklesIcon className="size-4" />
             </span>
             <div className="flex min-w-0 items-baseline gap-2">
-              <h1 className="shrink-0 text-sm font-semibold sm:text-base">The board</h1>
+              <h1 className="shrink-0 text-sm font-semibold sm:text-base">
+                The board
+              </h1>
               <span className="hidden truncate text-xs text-muted-foreground sm:inline">
                 Interactive GraphQL playground
               </span>
@@ -72,7 +79,10 @@ export function LearnPage() {
               className="flex size-6 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
             >
               <ChevronDownIcon
-                className={cn('size-4 transition-transform', aboutOpen && 'rotate-180')}
+                className={cn(
+                  'size-4 transition-transform',
+                  aboutOpen && 'rotate-180',
+                )}
               />
             </button>
           </div>
@@ -89,9 +99,14 @@ export function LearnPage() {
                   Learning dock
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-full gap-0 p-0 sm:max-w-md">
+              <SheetContent
+                side="right"
+                className="w-full gap-0 p-0 sm:max-w-md"
+              >
                 <SheetHeader className="border-b px-4 py-3">
-                  <SheetTitle className="font-display">Learning dock</SheetTitle>
+                  <SheetTitle className="font-display">
+                    Learning dock
+                  </SheetTitle>
                 </SheetHeader>
                 <div className="h-[calc(100dvh-3.75rem)]">
                   <RightDock embedded />
@@ -103,10 +118,13 @@ export function LearnPage() {
         {aboutOpen ? (
           <div className="border-t border-border/60 px-3 py-2.5 sm:px-4">
             <p className="max-w-3xl text-sm text-muted-foreground">
-              Create projects, move tasks, assign people — then inspect every GraphQL operation
-              with step-by-step explanations, see the raw data in{' '}
-              <strong className="font-medium text-foreground">server/src/store.ts</strong>, edit it
-              directly, and follow guided lessons. Nothing is hidden.
+              Create projects, move tasks, assign people — then inspect every
+              GraphQL operation with step-by-step explanations, see the raw data
+              in{' '}
+              <strong className="font-medium text-foreground">
+                server/src/store.ts
+              </strong>
+              , edit it directly, and follow guided lessons. Nothing is hidden.
             </p>
           </div>
         ) : null}
