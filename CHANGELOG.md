@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-06-18
+
 ### Added
 
 - Vitest test suite covering the server store and resolvers.
@@ -16,3 +18,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Dependabot configuration for npm and GitHub Actions updates.
 - CodeQL security scanning workflow.
 - CI now runs formatting, lint, tests, and build across Node 20 and 22.
+
+[unreleased]: https://github.com/edvardhov/quereek/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/edvardhov/quereek/releases/tag/v0.1.0

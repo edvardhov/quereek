@@ -1,7 +1,7 @@
 {
   "name": "quereek",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Learn GraphQL by using it — a Kanban task manager where every action shows you the exact GraphQL operation behind it.",
   "keywords": [
     "graphql",
