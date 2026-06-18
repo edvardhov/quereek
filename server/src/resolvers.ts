@@ -228,13 +228,13 @@ export const resolvers = {
   Subscription: {
     taskChanged: {
       subscribe: withFilter(
-        () => pubsub.asyncIterator([TASK_CHANGED]),
+        () => pubsub.asyncIterableIterator([TASK_CHANGED]),
         (
           payload: {
             taskChanged: { projectId: string }
-          },
-          variables: { projectId: string },
-        ) => payload.taskChanged.projectId === variables.projectId,
+          } | undefined,
+          variables: { projectId: string } | undefined,
+        ) => payload?.taskChanged.projectId === variables?.projectId,
       ),
     },
   },
