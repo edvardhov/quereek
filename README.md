@@ -1,6 +1,9 @@
 <div align="center">
 
-<img alt="Quereek" src="https://raw.githubusercontent.com/edvardhov/quereek/main/src/assets/quereek-lockup-neutral.svg" width="360">
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/edvardhov/quereek/main/src/assets/quereek-lockup-white-transparent.svg" />
+  <img alt="Quereek" src="https://raw.githubusercontent.com/edvardhov/quereek/main/src/assets/quereek-lockup-transparent.svg" width="360" />
+</picture>
 
 ### Learn GraphQL by using it
 
