@@ -41,10 +41,10 @@
     "codegen": "graphql-codegen --config codegen.ts"
   },
   "dependencies": {
-    "@apollo/client": "^4.2.3",
+    "@apollo/client": "^4.2.6",
     "@apollo/server": "^5.5.1",
     "@as-integrations/express4": "^1.1.2",
-    "@graphql-tools/schema": "^10.0.33",
+    "@graphql-tools/schema": "^10.0.36",
     "@radix-ui/react-dialog": "^1.1.17",
     "@radix-ui/react-navigation-menu": "^1.2.16",
     "@radix-ui/react-scroll-area": "^1.2.12",
@@ -60,7 +60,7 @@
     "cors": "^2.8.6",
     "events": "^3.3.0",
     "express": "^4.22.2",
-    "graphql": "^16.14.2",
+    "graphql": "^17.0.2",
     "graphql-subscriptions": "^3.0.0",
     "graphql-ws": "^6.0.8",
     "lucide-react": "^1.20.0",
